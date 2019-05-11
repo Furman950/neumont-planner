@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//Pages
+import 'package:neumont_planner/login.dart';
+import 'package:neumont_planner/settings.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -7,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Neumont Planner',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -18,9 +22,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Neumont Planner'),
     );
   }
 }
@@ -71,6 +75,35 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text('Developer'),
+              accountEmail: new Text('dev@planner.neumont.edu'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
+              ),
+            ),
+            new ListTile(
+              title: new Text('Settings'),
+              onTap: () {
+                Navigator.push(context, new MaterialPageRoute(
+                  builder: (BuildContext context) => new SettingsPage())
+                );
+              }
+            ),
+            new ListTile(
+              title: new Text('Login'),
+              onTap: () {
+                Navigator.push(context, new MaterialPageRoute(
+                  builder: (BuildContext context) => new LoginPage())
+                );
+              }
+            ),
+          ],
+        ),
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -92,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Events the Planner Contains:',
             ),
             Text(
               '$_counter',
@@ -103,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Add Event',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
