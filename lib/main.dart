@@ -3,6 +3,14 @@ import 'package:flutter/material.dart';
 //Pages
 import 'package:neumont_planner/login.dart';
 import 'package:neumont_planner/settings.dart';
+import 'package:neumont_planner/view_manager.dart';
+
+enum View{
+  MONTH,
+  WEEK,
+  DAY,
+  HOUR
+}
 
 void main() => runApp(MyApp());
 
@@ -12,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Neumont Planner',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.yellow,
       ),
       home: MyHomePage(title: 'Neumont Planner'),
     );
@@ -28,13 +36,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  View _currentView = View.MONTH;
 
   @override
   Widget build(BuildContext context) {
@@ -56,39 +58,25 @@ class _MyHomePageState extends State<MyHomePage> {
             new ListTile(
                 title: new Text('Settings'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new SettingsPage()));
+                  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
                 }),
             new ListTile(
                 title: new Text('Login'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new LoginPage()));
+                  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
                 }),
           ],
         ),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Events the Planner Contains:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+                  ViewManager()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: null,
         tooltip: 'Add Event',
         child: Icon(Icons.add),
       ), 
