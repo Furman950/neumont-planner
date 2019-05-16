@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5585:5585"
+    depends_on:
+      - mongo
+  mongo:
+    image: andresvidal/rpi3-mongodb3
+    volumes:
+      - "./data/db:/data/db"
+    ports:
+      - "27017:27017"
