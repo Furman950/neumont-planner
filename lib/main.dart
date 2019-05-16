@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/views/day_view.dart';
 
-//Pages
-import 'package:neumont_planner/login.dart';
-import 'package:neumont_planner/settings.dart';
-import 'package:neumont_planner/view_manager.dart';
+import 'managers/view_manager.dart';
+import 'pages/login.dart';
+import 'pages/settings.dart';
 
 enum View{
   MONTH,
@@ -71,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-                  ViewManager()
+                  ViewManager(),
+                  DayView()
           ],
         ),
       ),

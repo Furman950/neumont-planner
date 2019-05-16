@@ -23,9 +23,7 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Login'),
               elevation: 4.0,
               splashColor: Colors.redAccent,
-              onPressed: () {
-                //MethodHere
-              },
+              onPressed: null,
             )
           ],
         )
