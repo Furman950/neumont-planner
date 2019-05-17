@@ -1,8 +1,5 @@
 FROM arm32v7/node
-WORKDIR /home/fermin/mongo-rest-api
-COPY package*.json ./
-RUN npm install --only=production
-ARG port=5585
-EXPOSE $port
-COPY . .
+VOLUME /src
+WORKDIR /src
+EXPOSE 5585
 CMD [ "npm", "start"]
