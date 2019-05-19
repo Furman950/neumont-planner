@@ -46,7 +46,7 @@ router.post('/events/new', (req, res, next) => {
     req.body.title,
     req.body.description,
     req.body.id,
-    req,body.start,
+    req.body.start,
     req.body.end)
   req.app.locals.db.collection(collection).insertOne({
     newDocument
