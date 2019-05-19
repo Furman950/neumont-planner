@@ -2,10 +2,18 @@ version: '3'
 services:
   web:
     build: .
+    volumes:
+      - "./:/src"
     ports:
       - "5585:5585"
     depends_on:
       - mongo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "mongodb://mongo:27017"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+      
   mongo:
     image: andresvidal/rpi3-mongodb3
     volumes:

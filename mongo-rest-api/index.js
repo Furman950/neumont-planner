@@ -19,9 +19,7 @@ const options = {
 const routes = require('./routes/routes.js')
 const port = 5585
 const app = express()
-const https = require('https')
-
-https.createServer(security, app)
+const https = require('https').createServer(security, app)
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
