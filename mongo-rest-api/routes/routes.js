@@ -42,7 +42,12 @@ router.get('/events/:id', (req, res, next) => {
 
 router.post('/events/new', (req, res, next) => {
   console.log("-------in /events/new --------")
-  const newDocument = new Document(req.body.title)
+  const newDocument = new Document(
+    req.body.title,
+    req.body.description,
+    req.body.id,
+    req.body.start,
+    req.body.end)
   req.app.locals.db.collection(collection).insertOne({
     newDocument
   }, (err, result) => {
@@ -75,7 +80,11 @@ router.patch('/events/edit/:id', (req, res, next) => {
     {
       $set:
       {
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description,
+        id: req.body.id,
+        start: req.body.start,
+        end: req.body.end
       }
     }, (err, result) => {
       if (err) {

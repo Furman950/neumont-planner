@@ -1,5 +1,9 @@
 module.exports = class CalendarEvent{
-    constructor(title){
-        this.title = title
+    constructor(name, description, Id, start, end){
+        this.Name = name,
+        this.Description = description,
+        this.Id = Id,
+        this.Start = start,
+        this.End = end
     }
 }

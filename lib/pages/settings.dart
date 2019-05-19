@@ -12,6 +12,22 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: new AppBar(
         title: new Text('Settings Page'),
       ),
+      body: Column(
+        children: <Widget>[
+          new ListTile(
+            title: new Text('Object 1'),
+            onTap: () => print('Object 1 Pressed'),
+          ),
+          new ListTile(
+            title: new Text('Object 2'),
+            onTap: () => print('Object 2 Pressed'),
+          ),
+          new ListTile(
+            title: new Text('Object 3'),
+            onTap: () => print('Object 3 Pressed'),
+          ),
+        ],
+      ),
     );
   }
 }
