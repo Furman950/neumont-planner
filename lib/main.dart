@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/views/day_view.dart';
+import 'package:neumont_planner/views/month_view.dart';
 
 import 'managers/view_manager.dart';
 import 'pages/login.dart';
 import 'pages/settings.dart';
+import 'views/hour_view.dart';
+import 'views/week_view.dart';
 
 enum View{
   MONTH,
@@ -35,9 +38,34 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  View _currentView = View.MONTH;
+Widget getView(View view){
+  if(view == View.DAY){
+    print('day');
+    return DayView();
+  }else if(view == View.HOUR){
+    print('hour');
+    return HourView();
+  }else if(view == View.WEEK){
+    print('week');
+    return Text('Week');
+  }else if(view == View.MONTH){
+    print('hour');
+    return Text('Month');
+  }else{ 
+    print('yikes');
+    return Text('Yikes');
+  }
+}
 
+
+class _MyHomePageState extends State<MyHomePage> {
+  View _currentViewType = View.DAY;
+
+void changeView(View view){
+  setState(() {
+   _currentViewType = view; 
+  });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-                  ViewManager(),
-                  DayView()
+                  ViewManager(changeView),
+                  getView(_currentViewType),
           ],
         ),
       ),
