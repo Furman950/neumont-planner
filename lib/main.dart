@@ -47,9 +47,9 @@ Widget getView(View view){
     return HourView();
   }else if(view == View.WEEK){
     print('week');
-    return WeekView();
+    return Text('Week');
   }else if(view == View.MONTH){
-    print('month');
+    print('hour');
     return Text('Month');
   }else{ 
     print('yikes');
@@ -59,7 +59,7 @@ Widget getView(View view){
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.DAY;
+  View _currentViewType = View.MONTH;
 
 void changeView(View view){
   setState(() {
@@ -72,30 +72,30 @@ void changeView(View view){
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text('Developer'),
-              accountEmail: new Text('dev@planner.neumont.edu'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage(
-                    'https://www.neumont.edu/cmsimages/neumont_logo.png'),
-              ),
-            ),
-            new ListTile(
-                title: new Text('Settings'),
-                onTap: () {
-                  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
-                }),
-            new ListTile(
-                title: new Text('Login'),
-                onTap: () {
-                  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
-                }),
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     children: <Widget>[
+      //       new UserAccountsDrawerHeader(
+      //         accountName: new Text('Developer'),
+      //         accountEmail: new Text('dev@planner.neumont.edu'),
+      //         currentAccountPicture: new CircleAvatar(
+      //           backgroundImage: new NetworkImage(
+      //               'https://www.neumont.edu/cmsimages/neumont_logo.png'),
+      //         ),
+      //       ),
+      //       new ListTile(
+      //           title: new Text('Settings'),
+      //           onTap: () {
+      //             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
+      //           }),
+      //       new ListTile(
+      //           title: new Text('Login'),
+      //           onTap: () {
+      //             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
+      //           }),
+      //     ],
+      //   ),
+      // ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -104,11 +104,11 @@ void changeView(View view){
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Add Event',
-        child: Icon(Icons.add),
-      ), 
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: null,
+      //   tooltip: 'Add Event',
+      //   child: Icon(Icons.add),
+      // ), 
     );
   }
 }
