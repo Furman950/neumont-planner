@@ -47,9 +47,9 @@ Widget getView(View view){
     return HourView();
   }else if(view == View.WEEK){
     print('week');
-    return Text('Week');
+    return WeekView();
   }else if(view == View.MONTH){
-    print('hour');
+    print('month');
     return Text('Month');
   }else{ 
     print('yikes');

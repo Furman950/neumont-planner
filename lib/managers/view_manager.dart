@@ -11,7 +11,7 @@ class ViewManager extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         new RaisedButton(child: new Text('Month'), onPressed: () => changeView(View.MONTH)),
-        new RaisedButton(child: new Text('Week'), onPressed: () => changeView( View.WEEK)),
+        new RaisedButton(child: new Text('Week'), onPressed: () => changeView(View.WEEK)),
         new RaisedButton(child: new Text('Day'), onPressed: () => changeView(View.DAY))
     ],
     );
