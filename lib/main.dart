@@ -59,7 +59,7 @@ Widget getView(View view){
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.DAY;
+  View _currentViewType = View.MONTH;
 
 void changeView(View view){
   setState(() {

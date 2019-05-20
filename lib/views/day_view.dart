@@ -14,15 +14,16 @@ class _DayViewState extends State<DayView> {
   Widget build(BuildContext context) {
 
     for (int i = 1; i < 100; i++) {
-      assignments.add(new Assignment(i,"Description",55,DateTime.now(),false));
+      assignments.add(new Assignment(i,"Assignment $i","Description",55,DateTime.now(),false));
     }
 
     return Expanded(
       child: ListView(
+        shrinkWrap: true,
         children: assignments.map((index) => Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[new AssignmentCard(index)],
+            children: <Widget>[new AssignmentCardRow(index,false,true,false,false,false,false)],
             ),
           )
           ).toList()
