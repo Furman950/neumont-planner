@@ -8,12 +8,7 @@ import 'pages/settings.dart';
 import 'views/hour_view.dart';
 import 'views/week_view.dart';
 
-enum View{
-  MONTH,
-  WEEK,
-  DAY,
-  HOUR
-}
+enum View { MONTH, WEEK, DAY, HOUR }
 
 void main() => runApp(MyApp());
 
@@ -38,34 +33,34 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-Widget getView(View view){
-  if(view == View.DAY){
+Widget getView(View view) {
+  if (view == View.DAY) {
     print('day');
     return DayView();
-  }else if(view == View.HOUR){
+  } else if (view == View.HOUR) {
     print('hour');
     return HourView();
-  }else if(view == View.WEEK){
+  } else if (view == View.WEEK) {
     print('week');
-    return Text('Week');
-  }else if(view == View.MONTH){
+    return WeekView();
+  } else if (view == View.MONTH) {
     print('hour');
     return Text('Month');
-  }else{ 
+  } else {
     print('yikes');
     return Text('Yikes');
   }
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
   View _currentViewType = View.MONTH;
 
-void changeView(View view){
-  setState(() {
-   _currentViewType = view; 
-  });
-}
+  void changeView(View view) {
+    setState(() {
+      _currentViewType = view;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,8 +94,8 @@ void changeView(View view){
       body: Center(
         child: Column(
           children: <Widget>[
-                  ViewManager(changeView),
-                  getView(_currentViewType),
+            ViewManager(changeView),
+            getView(_currentViewType),
           ],
         ),
       ),
@@ -108,7 +103,7 @@ void changeView(View view){
       //   onPressed: null,
       //   tooltip: 'Add Event',
       //   child: Icon(Icons.add),
-      // ), 
+      // ),
     );
   }
 }
