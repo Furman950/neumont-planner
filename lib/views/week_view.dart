@@ -23,7 +23,7 @@ class _WeekViewState extends State<WeekView> {
     for (var i = 6, j = 0; j < 7; i++, j++) {
       // print("${describeEnum(_WeekDay.values[i])} ${_thisWeek.month}/${(_thisWeek.day+j)}");
       weekViewStuff.add(
-          "${describeEnum(_WeekDay.values[i])} ${_thisWeek.month}/${(_thisWeek.day + j)}");
+          "${describeEnum(_WeekDay.values[i])}, ${_thisWeek.month}/${(_thisWeek.day + j)}");
       if (i == 6) {
         i = -1;
       }
