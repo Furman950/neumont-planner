@@ -12,7 +12,6 @@ class _DayViewState extends State<DayView> {
   List<Assignment> assignments = []; 
   @override
   Widget build(BuildContext context) {
-
     for (int i = 1; i < 100; i++) {
       assignments.add(new Assignment(i,"Assignment $i","Description",55,DateTime.now(),false));
     }
