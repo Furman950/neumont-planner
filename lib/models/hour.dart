@@ -11,17 +11,16 @@ class  Hour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Expanded(
-      child: Column(
+      return Column(
         children: <Widget>[
           Text(hour),
           ListView(
+            shrinkWrap: true,
             children: assignmentList.map((assignment) =>
               AssignmentCardRow(assignment, false, true, true, true, false, false)
             ).toList()
             )
           ],
-      )
     );
   }
 }

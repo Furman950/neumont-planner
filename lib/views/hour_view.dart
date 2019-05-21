@@ -26,14 +26,17 @@ class _HourViewState extends State<HourView> {
       assignments.add(new Assignment(i,"Assignment $i" ,"Description",55,DateTime.now(),false));
     }
 
-    return Expanded(
-          child: ListView(
-            shrinkWrap: true,
-            children: hourList.map((hour) => Card(
-                child: Hour(hour, assignments),
-              )
-              ).toList()
-          )
-        );
+  return Expanded(
+    child: ListView(
+      shrinkWrap: true,
+      children: hourList.map((hour) => Card(
+        child: Column(
+          children: <Widget>[
+            Hour(hour, assignments),
+          ],
+        ),
+        )).toList()
+      )
+    );
   }
 }

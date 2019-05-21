@@ -18,7 +18,6 @@ class _DayViewState extends State<DayView> {
 
     return Expanded(
       child: ListView(
-        shrinkWrap: true,
         children: assignments.map((index) => Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
