@@ -54,7 +54,7 @@ Widget getView(View view, Function(View) changeView) {
     return WeekView();
   } else if (view == View.MONTH) {
     print('hour');
-    return Text('Month');
+    return MonthView();
   } else {
     print('yikes');
     return Text('Yikes');
@@ -81,30 +81,31 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     children: <Widget>[
-      //       new UserAccountsDrawerHeader(
-      //         accountName: new Text('Developer'),
-      //         accountEmail: new Text('dev@planner.neumont.edu'),
-      //         currentAccountPicture: new CircleAvatar(
-      //           backgroundImage: new NetworkImage(
-      //               'https://www.neumont.edu/cmsimages/neumont_logo.png'),
-      //         ),
-      //       ),
-      //       new ListTile(
-      //           title: new Text('Settings'),
-      //           onTap: () {
-      //             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
-      //           }),
-      //       new ListTile(
-      //           title: new Text('Login'),
-      //           onTap: () {
-      //             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
-      //           }),
-      //     ],
-      //   ),
-      // ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text('Developer'),
+              accountEmail: new Text('dev@planner.neumont.edu'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
+              ),
+            ),
+            new ListTile(
+              title: new Text('Settings'),
+              onTap: () {
+                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
+                }
+              ),
+            new ListTile(
+              title: new Text('Login'),
+              onTap: () {
+                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
+              }
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
