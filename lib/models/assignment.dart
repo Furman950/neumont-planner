@@ -21,26 +21,26 @@ abstract class AssignmentCard extends StatelessWidget{
     }
 
       if(_showTitle){
-        list.add(Text(_assignment.title));
+        list.add(Text(_assignment.title + " "));
       }
 
       if(_showDescription){
-        list.add(Text(_assignment.description));
+        list.add(Text(_assignment.description + " "));
       }
 
       if(_showPP){
         var pp = _assignment.pp;
-        list.add(Text("$pp"));
+        list.add(Text("(Points: $pp) "));
       }
 
       if(_showDueDate){
         var date = _assignment.dueAt;
-        list.add(Text("$date"));
+        list.add(Text("Due: $date "));
       }
 
       if(_showHasSubmitted){
         var submitted = _assignment.hasSubmitted.toString();
-        list.add(Text(submitted));
+        list.add(Text( "Submitted: $submitted "));
       }
       return  list;
     }

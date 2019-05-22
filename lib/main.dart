@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/objects.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
 
@@ -33,13 +34,21 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-Widget getView(View view) {
+Widget getView(View view, Function(View) changeView) {
+  List<Assignment> alist = [];
+  List<Course> clist = [];
+  List<Event> elist = [];
+
+  for(int i = 0; i < 10 ; i++){
+    alist.add( new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now(), false));
+  }
+
   if (view == View.DAY) {
     print('day');
-    return DayView();
+    return DayView(alist, clist, elist,changeView);
   } else if (view == View.HOUR) {
     print('hour');
-    return HourView();
+    return HourView(alist, clist, elist,changeView);
   } else if (view == View.WEEK) {
     print('week');
     return WeekView();
@@ -53,7 +62,12 @@ Widget getView(View view) {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.MONTH;
+  View _currentViewType = View.HOUR;
+  DateTime today = DateTime.now();
+  DateTime selectedDate  = DateTime.now();
+  List<Assignment> assignments = [];
+  List<Course> courses = [];
+  List<Event> events = [];
 
   void changeView(View view) {
     setState(() {
@@ -95,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             ViewManager(changeView),
-            getView(_currentViewType),
+            getView(_currentViewType, changeView),
           ],
         ),
       ),
