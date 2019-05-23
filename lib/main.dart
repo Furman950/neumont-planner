@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.HOUR;
+  View _currentViewType = View.MONTH;
   DateTime _today = DateTime.now();
   DateTime _selectedDate = DateTime.now();
   List<Assignment> _assignments = [];
@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            ViewManager(changeView, _selectedDate),
+            ViewManager(changeView, _selectedDate, _currentViewType),
             getView(_currentViewType, changeView),
           ],
         ),
