@@ -68,7 +68,7 @@ class MonthView extends AbstractView {
           child: new RaisedButton(
             color: color,
             child: new Text('${day.day}'),
-            onPressed: () => changeView(View.DAY, day)
+             onPressed: () => changeView(View.DAY, day)
           ),
         ),
       );
@@ -113,22 +113,35 @@ class MonthView extends AbstractView {
     return Expanded(
       child: new Column(
         children: <Widget> [
+          new Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text('Sun.'),
+              new Text('        Mon.'),
+              new Text('      Tues.'),
+              new Text('       Wed.'),
+              new Text('      Thur.'),
+              new Text('         Fri.'),
+              new Text('          Sat.'),
+            ],
+          ),
           new Container(
             width: 700,
             height: 355,
             child: GridView.count(
               crossAxisCount: 7,
               childAspectRatio: 1.0,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10,10,10,0),
               mainAxisSpacing: 5.0,
               crossAxisSpacing: 5.0,
               children: monthView,
             ),
           ),
           new Container(
-            height: 145,
+            height: 146.4,
             child: new ListView(
-              padding: const EdgeInsets.all(7),
+              padding: const EdgeInsets.fromLTRB(7,0,7,7),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: monthEvent,
