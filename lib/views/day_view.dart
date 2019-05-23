@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/assignment.dart';
 import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/views/abstract_view.dart';
 
-import '../main.dart';
+class DayView extends AbstractView{
 
-class DayView extends StatelessWidget {
-
-  final List<Assignment> assignments; 
-  final List<Course> courses; 
-  final List<Event> events; 
-  final void Function(View,DateTime) changeView;
-
-  DayView(this.assignments,this.courses,this.events,this.changeView);
+  DayView(List<Assignment> assignments, List<Course> courses, List<Event> events, changeView) : super(assignments, courses, events, changeView);
 
   @override
   Widget build(BuildContext context) {

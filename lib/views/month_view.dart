@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/views/abstract_view.dart';
 
-class MonthView extends StatefulWidget {
-  @override
-  _MonthViewState createState() => _MonthViewState();
-}
+class MonthView extends AbstractView {
 
-class _MonthViewState extends State<MonthView> {
-  List<Container> monthView = [];
-  List<Container> monthEvent = [];
+  MonthView(List<Assignment> assignments, List<Course> courses, List<Event> events, changeView) : super(assignments, courses, events, changeView);
 
   @override
   Widget build(BuildContext context) {
+  List<Container> monthView = [];
+  List<Container> monthEvent = [];
     DateTime today = DateTime.now();
     DateTime firstDayOfMonth = new DateTime(today.year, today.month, 1);
     int offset = 0;

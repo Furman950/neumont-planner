@@ -3,20 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects.dart';
 import 'package:neumont_planner/models/week_date_helper.dart';
+import 'package:neumont_planner/views/abstract_view.dart';
 
 import '../main.dart';
 
-class WeekView extends StatelessWidget {
-  final void Function(View, DateTime) changeView;
-  // @override
-  // State<StatefulWidget> createState() => _WeekViewState();
-  final List<Assignment> assignments;
-  final List<Course> courses;
-  final List<Event> events;
+class WeekView extends AbstractView {
+
   final DateTime date;
 
-  WeekView(
-      this.assignments, this.courses, this.events, this.changeView, this.date);
+  WeekView(List<Assignment> assignments, List<Course> courses, List<Event> events, changeView,this.date) : super(assignments, courses, events, changeView);
 
   @override
   Widget build(BuildContext context) {
