@@ -37,7 +37,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static void Function(View,DateTime) changeViewFunc;
   View _currentViewType = View.HOUR;
   DateTime _today = DateTime.now();
   DateTime _selectedDate  = DateTime.now();
@@ -62,6 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeView(View view, DateTime newDate) {
     _assignments.clear();
+    _courses.clear();
+    _events.clear();
     setState(() {
       _currentViewType = view;
       //simulates Assignment api call;
