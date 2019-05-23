@@ -7,52 +7,42 @@ class MonthView extends StatefulWidget {
 
 class _MonthViewState extends State<MonthView> {
   List<Container> monthView = [];
+  List<Container> monthEvent = [];
 
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
+    DateTime firstDayOfMonth = new DateTime(today.year, today.month, 1);
     int offset = 0;
 
-    //switch(today.month-1){
-    //  case 1:
-    //    break;
-    //  case 2:
-    //    break;
-    //  case 3:
-    //    break;
-    //  case 4:
-    //    break;
-    //  case 5:
-    //    offset = -2;
-    //    break;
-    //  case 6:
-    //    offset = -5;
-    //    break;
-    //  case 7:
-    //    offset = 0;
-    //    break;
-    //  case 8:
-    //   offset = -3;
-    //    break;
-    //  case 9:
-    //    offset = 1;
-    //    break;
-    //  case 10:
-    //    offset = -1;
-    //    break;
-    //  case 11:
-    //    offset = -4;
-    //    break;
-    //  case 12:
-    //    offset = 1;
-    //    break;
-    //  default:
-    //    break;
-    //}
+    if(monthView.isEmpty){
+      switch(firstDayOfMonth.weekday) {
+        case DateTime.sunday:
+          offset = 1;
+          break;
+        case DateTime.monday:
+          offset = 0;
+          break;
+        case DateTime.tuesday:
+          offset = -1;
+          break;
+        case DateTime.wednesday:
+          offset = -2;
+          break;
+        case DateTime.thursday:
+          offset = -3;
+          break;
+        case DateTime.friday:
+          offset = -4;
+          break;
+        case DateTime.saturday:
+          offset = -5;
+          break;
+      }
+    }
 
-    for (int i = 0; i < 42; i++) {
-      offset = -2;
-      DateTime day = new DateTime(today.year, today.month, i+offset);
+    for (int i = offset; monthView.length < 42; i++) {
+      DateTime day = new DateTime(today.year, today.month, i);
       Color color = Colors.grey;
 
       if (day.month == today.month){
@@ -78,16 +68,47 @@ class _MonthViewState extends State<MonthView> {
           ),
         ),
       );
+
+      monthEvent.add(
+        new Container(
+          height: 50,
+          child: new Card(
+            color: color,
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget> [
+                new Text('Event on ${day.month}/${day.day}')
+              ]
+            )
+          )
+        )
+      );
     }
 
     return Expanded(
-      child: GridView.count(
-        crossAxisCount: 7,
-        childAspectRatio: 1.0,
-        padding: const EdgeInsets.all(4.0),
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-        children: monthView
+      child: new Column(
+        children: <Widget> [
+          new Container(
+            width: 700,
+            height: 355,
+            child: GridView.count(
+              crossAxisCount: 7,
+              childAspectRatio: 1.0,
+              padding: const EdgeInsets.all(4.0),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+              children: monthView
+            ),
+          ),
+          new Container(
+            height: 150,
+            child: new ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: monthEvent
+            )
+          )
+        ]
       )
     );
   }
