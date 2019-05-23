@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects.dart';
 import 'package:neumont_planner/views/abstract_view.dart';
 
+import '../main.dart';
+
 class MonthView extends AbstractView {
 
   MonthView(List<Assignment> assignments, List<Course> courses, List<Event> events, changeView) : super(assignments, courses, events, changeView);
@@ -63,25 +65,46 @@ class MonthView extends AbstractView {
             color: color,
             child: new Text('${day.day}'),
             //onPressed: () => new DayView(day),
-            onPressed: () => print('${day.toString()}'),
+            onPressed: () => changeView(View.DAY, day)
           ),
         ),
       );
 
-      monthEvent.add(
-        new Container(
-          height: 50,
-          child: new Card(
-            color: color,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget> [
-                new Text('Event on ${day.month}/${day.day}')
-              ]
+      for(int j = 0; j < assignments.length; j++){
+        if (assignments[j].dueAt.day == day.day && assignments[j].dueAt.month == day.month) {
+          monthEvent.add(
+            new Container(
+              child: new Card(
+                color: color,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget> [
+                    new Text('${day.month}/${day.day} - ${assignments[j].title}')
+                  ]
+                )
+              )
             )
-          )
-        )
-      );
+          );
+        }
+      }
+
+      for(int j = 0; j < events.length; j++){
+        if (events[j].startTime.day == day.day && events[j].startTime.month == day.month) {
+          monthEvent.add(
+            new Container(
+              child: new Card(
+                color: color,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget> [
+                    new Text('${day.month}/${day.day} - ${events[j].title}')
+                  ]
+                )
+              )
+            )
+          );
+        }
+      }
     }
 
     return Expanded(
@@ -93,18 +116,19 @@ class MonthView extends AbstractView {
             child: GridView.count(
               crossAxisCount: 7,
               childAspectRatio: 1.0,
-              padding: const EdgeInsets.all(4.0),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
+              padding: const EdgeInsets.all(10),
+              mainAxisSpacing: 5.0,
+              crossAxisSpacing: 5.0,
               children: monthView
             ),
           ),
           new Container(
-            height: 150,
+            height: 145,
             child: new ListView(
+              padding: const EdgeInsets.all(7),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              children: monthEvent
+              children: monthEvent,
             )
           )
         ]
