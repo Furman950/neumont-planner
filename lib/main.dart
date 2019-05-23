@@ -4,8 +4,8 @@ import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
 
 import 'managers/view_manager.dart';
-import 'pages/login.dart';
-import 'pages/settings.dart';
+//import 'pages/login.dart';
+//import 'pages/settings.dart';
 import 'views/hour_view.dart';
 import 'views/week_view.dart';
 
@@ -64,9 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _currentViewType = view;
       _selectedDate = newDate;
       //simulates Assignment api call;
-      for (int i = 0; i < 10; i++) {
-        _assignments.add(new Assignment(i, "Assignment " + i.toString(),
-            "This is worth alotta points", 25.0, DateTime.now(), false));
+      for (int i = 0; i < 30; i++) {
+        _assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
       }
     });
   }
