@@ -5,11 +5,10 @@ import '../main.dart';
 
 class MonthView extends StatelessWidget {
   final List<Assignment> assignments; 
-  final List<Course> courses; 
   final List<Event> events; 
   final void Function(View,DateTime) changeView;
 
-  MonthView(this.assignments,this.courses,this.events,this.changeView);
+  MonthView(this.assignments,this.events,this.changeView);
   
   final List<Container> monthView = [];
   final List<Container> monthEvent = [];
