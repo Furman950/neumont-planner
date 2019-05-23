@@ -26,8 +26,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -39,25 +37,25 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   View _currentViewType = View.HOUR;
   DateTime _today = DateTime.now();
-  DateTime _selectedDate  = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   List<Assignment> _assignments = [];
   List<Course> _courses = [];
   List<Event> _events = [];
 
-  Widget getView(View view, Function(View,DateTime) changeView) {
-
-  if (view == View.DAY) {
-    return DayView(_assignments, _courses, _events, changeView);
-  } else if (view == View.HOUR) {
-    return HourView(_assignments, _courses, _events, changeView);
-  } else if (view == View.WEEK) {
-    return WeekView(_assignments, _courses, _events, changeView);
-  } else if (view == View.MONTH) {
-    return MonthView();
-  } else {
-    return Text('Yikes');
+  Widget getView(View view, Function(View, DateTime) changeView) {
+    if (view == View.DAY) {
+      return DayView(_assignments, _courses, _events, changeView);
+    } else if (view == View.HOUR) {
+      return HourView(_assignments, _courses, _events, changeView);
+    } else if (view == View.WEEK) {
+      return WeekView(
+          _assignments, _courses, _events, changeView, _selectedDate);
+    } else if (view == View.MONTH) {
+      return MonthView();
+    } else {
+      return Text('Yikes');
+    }
   }
-}
 
   void changeView(View view, DateTime newDate) {
     _assignments.clear();
@@ -65,10 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
     _events.clear();
     setState(() {
       _currentViewType = view;
+      _selectedDate = newDate;
       //simulates Assignment api call;
-      for(int i = 0; i < 10 ; i++){
-        _assignments.add( new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now(), false));
-        }
+      for (int i = 0; i < 10; i++) {
+        _assignments.add(new Assignment(i, "Assignment " + i.toString(),
+            "This is worth alotta points", 25.0, DateTime.now(), false));
+      }
     });
   }
 

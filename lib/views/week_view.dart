@@ -40,54 +40,85 @@ class WeekView extends StatelessWidget {
         i = -1;
       }
     }
+
+    List<Container> cardList = buildCards(dates, assignments, events);
+
     double start = 0;
     double update = 0;
-    // double end = 0;
 
+    //   return Expanded(
+    //       child: ListView(
+    //           shrinkWrap: true,
+    //           children: dates
+    //               .map((dateString) => GestureDetector(
+    //                   onTap: () {
+    //                     changeView(View.DAY, currentDate);
+    //                   },
+    //                   onPanStart: (DragStartDetails details) {
+    //                     start = details.globalPosition.dx;
+    //                   },
+    //                   onPanUpdate: (DragUpdateDetails details) {
+    //                     update = details.globalPosition.dx - start;
+    //                   },
+    //                   onPanEnd: (DragEndDetails details) {
+    //                     if (update - start > 0) {
+    //                       //previoius
+    //                       print(currentDate.toString());
+    //                       DateTime toPass =
+    //                           currentDate.subtract(new Duration(days: 7));
+    //                       print(toPass.toString());
+    //                       changeView(View.WEEK, toPass);
+    //                     } else {
+    //                       //next
+    //                       DateTime toPass =
+    //                           currentDate.add(new Duration(days: 7));
+    //                       changeView(View.WEEK, toPass);
+    //                     }
+    //                   },
+    //                   child: Container(
+    //                       height: 100,
+    //                       child: Card(
+    //                         child: Column(
+    //                           children: assignments.length < 4
+    //                               ? <Widget>[
+    //                                   WeekDateHelper(assignments, dateString)
+    //                                 ]
+    //                               : <Widget>[
+    //                                   Text(
+    //                                       "$dateString\n${assignments.length.toString()} assignments")
+    //                                 ],
+    //                         ),
+    //                       ))))
+    //               .toList()));
     return Expanded(
+      child: new GestureDetector(
         child: ListView(
-            shrinkWrap: true,
-            children: dates
-                .map((dateString) => GestureDetector(
-                    onTap: () {
-                      changeView(View.DAY, currentDate);
-                    },
-                    onPanStart: (DragStartDetails details) {
-                      start = details.globalPosition.dx;
-                    },
-                    onPanUpdate: (DragUpdateDetails details) {
-                      update = details.globalPosition.dx - start;
-                    },
-                    onPanEnd: (DragEndDetails details) {
-                      if (update - start > 0) {
-                        //previoius
-                        print(currentDate.toString());
-                        DateTime toPass =
-                            currentDate.subtract(new Duration(days: 7));
-                        print(toPass.toString());
-                        changeView(View.WEEK, toPass);
-                      } else {
-                        //next
-                        DateTime toPass =
-                            currentDate.add(new Duration(days: 7));
-                        changeView(View.WEEK, toPass);
-                      }
-                    },
-                    child: Container(
-                        height: 100,
-                        child: Card(
-                          child: Column(
-                            children: assignments.length < 4
-                                ? <Widget>[
-                                    WeekDateHelper(assignments, dateString)
-                                  ]
-                                : <Widget>[
-                                    Text(
-                                        "$dateString\n${assignments.length.toString()} assignments")
-                                  ],
-                          ),
-                        ))))
-                .toList()));
+          children: cardList,
+        ),
+        onTap: () {
+          changeView(View.DAY, currentDate);
+        },
+        onPanStart: (DragStartDetails details) {
+          start = details.globalPosition.dx;
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          update = details.globalPosition.dx - start;
+        },
+        onPanEnd: (DragEndDetails details) {
+          if (update - start > 0) {
+            //previoius
+            print(currentDate.toString());
+            DateTime toPass = currentDate.subtract(new Duration(days: 7));
+            print(toPass.toString());
+            changeView(View.WEEK, toPass);
+          } else {
+            //next
+            DateTime toPass = currentDate.add(new Duration(days: 7));
+            changeView(View.WEEK, toPass);
+          }
+        },
+      ),
+    );
   }
 }
 
@@ -101,8 +132,22 @@ enum _WeekDay {
   SUNDAY
 }
 
-class CardBuilder {
-  List<Card> cards() {
-    return null;
+List<Container> buildCards(
+    List<String> dates, List<Assignment> assignments, List<Event> events) {
+  List<Container> toReturn = new List<Container>();
+  for (String item in dates) {
+    toReturn.add(new Container(
+      height: 100,
+      child: Card(
+        child: Column(
+          children: assignments.length < 4
+              ? <Widget>[WeekDateHelper(assignments, item)]
+              : <Widget>[
+                  Text("$item\n${assignments.length.toString()} assignments")
+                ],
+        ),
+      ),
+    ));
   }
+  return toReturn;
 }
