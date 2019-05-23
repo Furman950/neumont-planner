@@ -53,7 +53,11 @@ class MonthView extends AbstractView {
         color = Colors.grey;
       }
 
-      if (day.day == today.day && day.month == today.month && day.year == today.year){
+      if (day.weekday == DateTime.saturday && day.month == today.month || day.weekday == DateTime.sunday && day.month == today.month) {
+        color = Colors.red;
+      }
+
+      if (day.day == today.day+2 && day.month == today.month && day.year == today.year){
         color = Colors.orange;
       }
 
@@ -64,7 +68,6 @@ class MonthView extends AbstractView {
           child: new RaisedButton(
             color: color,
             child: new Text('${day.day}'),
-            //onPressed: () => new DayView(day),
             onPressed: () => changeView(View.DAY, day)
           ),
         ),
@@ -119,7 +122,7 @@ class MonthView extends AbstractView {
               padding: const EdgeInsets.all(10),
               mainAxisSpacing: 5.0,
               crossAxisSpacing: 5.0,
-              children: monthView
+              children: monthView,
             ),
           ),
           new Container(
