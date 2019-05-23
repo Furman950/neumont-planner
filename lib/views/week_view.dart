@@ -1,47 +1,92 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/week_date_helper.dart';
 
-class WeekView extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _WeekViewState();
-}
+import '../main.dart';
 
-class _WeekViewState extends State<WeekView> {
-  List<String> weekViewStuff = [];
+class WeekView extends StatelessWidget {
+  final void Function(View, DateTime) changeView;
+  // @override
+  // State<StatefulWidget> createState() => _WeekViewState();
+  final List<Assignment> assignments;
+  final List<Course> courses;
+  final List<Event> events;
+  final DateTime date;
+
+  WeekView(
+      this.assignments, this.courses, this.events, this.changeView, this.date);
+
   @override
   Widget build(BuildContext context) {
-    //FOR THOSE READING:
-    //describeEnum returns the enum value in string "value", otherwise it returns "yourEnum.value"
-
-    //get current datetime
-    DateTime today = DateTime.now();
-
-    //get first day of current week
-    DateTime _thisWeek = today.subtract(new Duration(days: today.weekday));
+    DateTime currentDate;
+    List<String> dates = [];
+    if (date == null) {
+      print("null");
+      currentDate = DateTime.now();
+    } else {
+      print("notNull");
+      currentDate = date;
+    }
+    DateTime _viewWeek =
+        currentDate.subtract(new Duration(days: currentDate.weekday));
 
     for (var i = 6, j = 0; j < 7; i++, j++) {
       // print("${describeEnum(_WeekDay.values[i])} ${_thisWeek.month}/${(_thisWeek.day+j)}");
-      weekViewStuff.add(
-          "${describeEnum(_WeekDay.values[i])}, ${_thisWeek.month}/${(_thisWeek.day + j)}");
+      dates.add(
+          "${describeEnum(_WeekDay.values[i])}, ${_viewWeek.month}/${(_viewWeek.day + j)}");
       if (i == 6) {
         i = -1;
       }
     }
+    double start = 0;
+    double update = 0;
+    // double end = 0;
 
-    // return Center(child: ListView(children: weekViewStuff.map(index)=>Card(),),).toString();
     return Expanded(
         child: ListView(
-            children: weekViewStuff
-                .map((index) => Container(
-                    width: 100,
-                    height: 100,
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[Text(index)],
-                      ),
-                    )))
+            shrinkWrap: true,
+            children: dates
+                .map((dateString) => GestureDetector(
+                    onTap: () {
+                      changeView(View.DAY, currentDate);
+                    },
+                    onPanStart: (DragStartDetails details) {
+                      start = details.globalPosition.dx;
+                    },
+                    onPanUpdate: (DragUpdateDetails details) {
+                      update = details.globalPosition.dx - start;
+                    },
+                    onPanEnd: (DragEndDetails details) {
+                      if (update - start > 0) {
+                        //previoius
+                        print(currentDate.toString());
+                        DateTime toPass =
+                            currentDate.subtract(new Duration(days: 7));
+                        print(toPass.toString());
+                        changeView(View.WEEK, toPass);
+                      } else {
+                        //next
+                        DateTime toPass =
+                            currentDate.add(new Duration(days: 7));
+                        changeView(View.WEEK, toPass);
+                      }
+                    },
+                    child: Container(
+                        height: 100,
+                        child: Card(
+                          child: Column(
+                            children: assignments.length < 4
+                                ? <Widget>[
+                                    WeekDateHelper(assignments, dateString)
+                                  ]
+                                : <Widget>[
+                                    Text(
+                                        "$dateString\n${assignments.length.toString()} assignments")
+                                  ],
+                          ),
+                        ))))
                 .toList()));
   }
 }
@@ -54,4 +99,10 @@ enum _WeekDay {
   FRIDAY,
   SATURDAY,
   SUNDAY
+}
+
+class CardBuilder {
+  List<Card> cards() {
+    return null;
+  }
 }
