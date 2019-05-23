@@ -9,7 +9,7 @@ class HourView extends StatelessWidget {
   final List<Assignment> assignments;
   final List<Course> courses;
   final List<Event> events ;
-  final void Function(View) changeView;
+  final void Function(View,DateTime) changeView;
 
   HourView( this.assignments, this.courses, this.events, this.changeView);
 

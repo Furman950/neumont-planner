@@ -26,6 +26,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -34,44 +36,38 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-Widget getView(View view, Function(View) changeView) {
-  List<Assignment> alist = [];
-  List<Course> clist = [];
-  List<Event> elist = [];
+class _MyHomePageState extends State<MyHomePage> {
+  static void Function(View,DateTime) changeViewFunc;
+  View _currentViewType = View.HOUR;
+  DateTime _today = DateTime.now();
+  DateTime _selectedDate  = DateTime.now();
+  List<Assignment> _assignments = [];
+  List<Course> _courses = [];
+  List<Event> _events = [];
 
-  for(int i = 0; i < 10 ; i++){
-    alist.add( new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now(), false));
-  }
+  Widget getView(View view, Function(View,DateTime) changeView) {
 
   if (view == View.DAY) {
-    print('day');
-    return DayView(alist, clist, elist,changeView);
+    return DayView(_assignments, _courses, _events, changeView);
   } else if (view == View.HOUR) {
-    print('hour');
-    return HourView(alist, clist, elist,changeView);
+    return HourView(_assignments, _courses, _events, changeView);
   } else if (view == View.WEEK) {
-    print('week');
-    return WeekView();
+    return WeekView(_assignments, _courses, _events, changeView);
   } else if (view == View.MONTH) {
-    print('hour');
     return MonthView();
   } else {
-    print('yikes');
     return Text('Yikes');
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.HOUR;
-  DateTime today = DateTime.now();
-  DateTime selectedDate  = DateTime.now();
-  List<Assignment> assignments = [];
-  List<Course> courses = [];
-  List<Event> events = [];
-
-  void changeView(View view) {
+  void changeView(View view, DateTime newDate) {
+    _assignments.clear();
     setState(() {
       _currentViewType = view;
+      //simulates Assignment api call;
+      for(int i = 0; i < 10 ; i++){
+        _assignments.add( new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now(), false));
+        }
     });
   }
 
@@ -81,35 +77,35 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text('Developer'),
-              accountEmail: new Text('dev@planner.neumont.edu'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
-              ),
-            ),
-            new ListTile(
-              title: new Text('Settings'),
-              onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
-                }
-              ),
-            new ListTile(
-              title: new Text('Login'),
-              onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
-              }
-            ),
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     children: <Widget>[
+      //       new UserAccountsDrawerHeader(
+      //         accountName: new Text('Developer'),
+      //         accountEmail: new Text('dev@planner.neumont.edu'),
+      //         currentAccountPicture: new CircleAvatar(
+      //           backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
+      //         ),
+      //       ),
+      //       new ListTile(
+      //         title: new Text('Settings'),
+      //         onTap: () {
+      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
+      //           }
+      //         ),
+      //       new ListTile(
+      //         title: new Text('Login'),
+      //         onTap: () {
+      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
+      //         }
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: Center(
         child: Column(
           children: <Widget>[
-            ViewManager(changeView),
+            ViewManager(changeView, _selectedDate),
             getView(_currentViewType, changeView),
           ],
         ),
