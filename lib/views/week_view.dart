@@ -72,9 +72,9 @@ class WeekView extends AbstractView {
         onPanEnd: (DragEndDetails details) {
           if (update - start > 0) {
             //previoius
-            print(currentDate.toString());
+            // print(currentDate.toString());
             DateTime toPass = currentDate.subtract(new Duration(days: 7));
-            print(toPass.toString());
+            // print(toPass.toString());
             changeView(View.WEEK, toPass);
           } else {
             //next
@@ -105,12 +105,7 @@ List<Container> buildCards(
       height: 100,
       child: Card(
         child: Column(
-          children: assignments.length < 4
-              ? <Widget>[WeekDateHelper(assignments, item)]
-              : <Widget>[
-                  Text("$item\n${assignments.length.toString()} assignments")
-                ],
-        ),
+            children: <Widget>[WeekDateHelper(assignments, events, item)]),
       ),
     ));
   }
