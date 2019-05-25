@@ -17,11 +17,11 @@ class ViewManager extends StatelessWidget{
              selectedDate.month.toString() + "/" +selectedDate.day.toString()  +"/" + selectedDate.year.toString(), 
              style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold)
             ),
-           padding: EdgeInsets.all(10), 
+           padding: EdgeInsets.fromLTRB(10,10,10,0), 
            );
       case View.HOUR:
         return Padding(
-           padding: EdgeInsets.all(10), 
+           padding: EdgeInsets.fromLTRB(10,10,10,0), 
           child: Text( 
             selectedDate.month.toString() + "/" +selectedDate.day.toString()  +"/" + selectedDate.year.toString(),
             style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),  
@@ -33,7 +33,7 @@ class ViewManager extends StatelessWidget{
             selectedDate.month.toString() + "/" + selectedDate.year.toString(),
             style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
           ),
-           padding: EdgeInsets.all(10), 
+           padding: EdgeInsets.fromLTRB(10,10,10,0), 
         );
       case View.WEEK:
         return Padding(
@@ -41,7 +41,7 @@ class ViewManager extends StatelessWidget{
             " yyyy Week of  m/d - m-d", 
             style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold), 
           ),
-          padding: EdgeInsets.all(10), 
+           padding: EdgeInsets.fromLTRB(10,10,10,0), 
         );
       default:
       return Text("Yikes");
