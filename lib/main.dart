@@ -4,8 +4,8 @@ import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
 
 import 'managers/view_manager.dart';
-import 'pages/login.dart';
-import 'pages/settings.dart';
+//import 'pages/login.dart';
+//import 'pages/settings.dart';
 import 'views/hour_view.dart';
 import 'views/week_view.dart';
 
@@ -34,44 +34,39 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-Widget getView(View view, Function(View) changeView) {
-  List<Assignment> alist = [];
-  List<Course> clist = [];
-  List<Event> elist = [];
-
-  for(int i = 0; i < 10 ; i++){
-    alist.add( new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now(), false));
-  }
-
-  if (view == View.DAY) {
-    print('day');
-    return DayView(alist, clist, elist,changeView);
-  } else if (view == View.HOUR) {
-    print('hour');
-    return HourView(alist, clist, elist,changeView);
-  } else if (view == View.WEEK) {
-    print('week');
-    return WeekView();
-  } else if (view == View.MONTH) {
-    print('hour');
-    return MonthView();
-  } else {
-    print('yikes');
-    return Text('Yikes');
-  }
-}
-
 class _MyHomePageState extends State<MyHomePage> {
-  View _currentViewType = View.HOUR;
-  DateTime today = DateTime.now();
-  DateTime selectedDate  = DateTime.now();
-  List<Assignment> assignments = [];
-  List<Course> courses = [];
-  List<Event> events = [];
+  View _currentViewType = View.MONTH;
+  DateTime _today = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+  List<Assignment> _assignments = [];
+  List<Course> _courses = [];
+  List<Event> _events = [];
 
-  void changeView(View view) {
+  Widget getView(View view, Function(View,DateTime) changeView) {
+    if (view == View.DAY && _selectedDate.day == _today.day) {
+        return HourView(_assignments, _courses, _events, changeView);
+    }else if(view == View.DAY){
+      return DayView(_assignments, _courses, _events, changeView);
+    } else if (view == View.WEEK) {
+      return WeekView(_assignments, _courses, _events, changeView, _selectedDate);
+    } else if (view == View.MONTH) {
+      return MonthView(_assignments, _courses, _events, changeView);
+    } else {
+      return Text('Yikes');
+    }
+  }
+
+  void changeView(View view, DateTime newDate) {
+    _assignments.clear();
+    _courses.clear();
+    _events.clear();
     setState(() {
       _currentViewType = view;
+      _selectedDate = newDate;
+      //simulates Assignment api call;
+      for (int i = 0; i < 30; i++) {
+        _assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
+      }
     });
   }
 
@@ -81,35 +76,35 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text('Developer'),
-              accountEmail: new Text('dev@planner.neumont.edu'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
-              ),
-            ),
-            new ListTile(
-              title: new Text('Settings'),
-              onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
-                }
-              ),
-            new ListTile(
-              title: new Text('Login'),
-              onTap: () {
-                Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
-              }
-            ),
-          ],
-        ),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     children: <Widget>[
+      //       new UserAccountsDrawerHeader(
+      //         accountName: new Text('Developer'),
+      //         accountEmail: new Text('dev@planner.neumont.edu'),
+      //         currentAccountPicture: new CircleAvatar(
+      //           backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
+      //         ),
+      //       ),
+      //       new ListTile(
+      //         title: new Text('Settings'),
+      //         onTap: () {
+      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
+      //           }
+      //         ),
+      //       new ListTile(
+      //         title: new Text('Login'),
+      //         onTap: () {
+      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
+      //         }
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: Center(
         child: Column(
           children: <Widget>[
-            ViewManager(changeView),
+            ViewManager(changeView, _selectedDate, _currentViewType),
             getView(_currentViewType, changeView),
           ],
         ),
