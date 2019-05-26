@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/assignment.dart';
-import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/assignment_card.dart';
 
 class  Hour extends StatelessWidget {
 

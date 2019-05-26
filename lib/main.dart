@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/assignment.dart';
+import 'package:neumont_planner/models/course.dart';
 import 'package:neumont_planner/models/objects.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
@@ -65,7 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedDate = newDate;
       //simulates Assignment api call;
       for (int i = 0; i < 30; i++) {
-        _assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
+        //_assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
+        var assignment = new Assignment(id: i, description: "Assignment " + i.toString(), name: "This is worth alotta points", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
+        print(assignment.id);
+        _assignments.add(assignment);
       }
     });
   }

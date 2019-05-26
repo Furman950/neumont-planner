@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:neumont_planner/models/objects.dart';
 
-List<Course> courseFromJson(String str) => new List<Course>.from(json.decode(str).map((x) => Course.fromJson(x)));
+List<Course> coursesFromJson(String str) => new List<Course>.from(json.decode(str).map((x) => Course.fromJson(x)));
 
-String courseToJson(List<Course> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
+String coursesToJson(List<Course> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Course {
+class Course extends GuiObject{
     int id;
     String name;
     int accountId;
@@ -23,7 +23,7 @@ class Course {
         this.createdAt,
         this.courseCode,
         this.endAt
-    });
+    }) : super(id, "", name, startAt);
 
     factory Course.fromJson(Map<String, dynamic> json) => new Course(
         id: json["id"],
@@ -32,7 +32,7 @@ class Course {
         startAt: DateTime.parse(json["start_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         courseCode: json["course_code"],
-        endAt: DateTime.parse(json["end_at"]),
+        endAt: json["end_at"] == null ? DateTime.now() : DateTime.parse(json["end_at"])
     );
 
     Map<String, dynamic> toJson() => {

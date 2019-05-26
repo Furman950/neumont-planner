@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/assignment.dart';
+import 'package:neumont_planner/models/course.dart';
 import 'package:neumont_planner/models/hour.dart';
 import 'package:neumont_planner/models/objects.dart';
 import 'package:neumont_planner/views/abstract_view.dart';

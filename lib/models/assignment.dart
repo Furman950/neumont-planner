@@ -1,69 +1,59 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:neumont_planner/models/objects.dart';
 
-abstract class AssignmentCard extends StatelessWidget{
+List<Assignment> assignmentsFromJson(String str) => new List<Assignment>.from(json.decode(str).map((x) => Assignment.fromJson(x)));
 
-  AssignmentCard(this._assignment,this._showID,this._showTitle,this._showDescription,this._showPP,this._showDueDate,this._showHasSubmitted);
-  final Assignment _assignment;
-  final bool _showTitle;
-  final bool _showDescription;
-  final bool _showID;
-  final bool _showPP;
-  final bool _showDueDate;
-  final bool _showHasSubmitted;
+String assignmentsToJson(List<Assignment> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
-  List<Widget> getWidgetList() {
-    List<Widget> list = [];
+class Assignment extends GuiObject{
+    int id;
+    String description;
+    DateTime dueAt;
+    int pp;
+    String gradingType;
+    int allowedAttempts;
+    int courseId;
+    String name;
+    bool hasSubmitted;
+    bool isQuizAssignment;
 
-    if(_showID){
-      var id =  _assignment.id;
-      list.add(Text("$id"));
-    }
+    Assignment({
+        this.id,
+        this.description,
+        this.dueAt,
+        this.pp,
+        this.gradingType,
+        this.allowedAttempts,
+        this.courseId,
+        this.name,
+        this.hasSubmitted,
+        this.isQuizAssignment,
+    }) : super(id, description, name, dueAt);
 
-      if(_showTitle){
-        list.add(Text(_assignment.title + " "));
-      }
-
-      if(_showDescription){
-        list.add(Text(_assignment.description + " "));
-      }
-
-      if(_showPP){
-        var pp = _assignment.pp;
-        list.add(Text("(Points: $pp) "));
-      }
-
-      if(_showDueDate){
-        var date = _assignment.dueAt;
-        list.add(Text("Due: $date "));
-      }
-
-      if(_showHasSubmitted){
-        var submitted = _assignment.hasSubmitted.toString();
-        list.add(Text( "Submitted: $submitted "));
-      }
-      return  list;
-    }
-}
-
-class AssignmentCardRow extends AssignmentCard {
-  AssignmentCardRow(Assignment assignment, bool showID, bool showTitle, bool showDescription, bool showPP, bool showDueDate, bool showHasSubmitted) : super(assignment, showID, showTitle, showDescription, showPP, showDueDate, showHasSubmitted);
-
-  @override
-  Widget build(BuildContext context) {
-      return Row(
-        children: getWidgetList(),
-      );
-    }
-}
-
-class AssignmentCardColumn extends AssignmentCard{
-  AssignmentCardColumn(Assignment assignment, bool showID, bool showTitle, bool showDescription, bool showPP, bool showDueDate, bool showHasSubmitted) : super(assignment, showID, showTitle, showDescription, showPP, showDueDate, showHasSubmitted);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: getWidgetList()
+    factory Assignment.fromJson(Map<String, dynamic> json) => new Assignment(
+        id: json["id"],
+        description: json["description"],
+        dueAt: DateTime.parse(json["due_at"]),
+        pp: json["points_possible"],
+        gradingType: json["grading_type"],
+        allowedAttempts: json["allowed_attempts"],
+        courseId: json["course_id"],
+        name: json["name"],
+        hasSubmitted: json["has_submitted_submissions"],
+        isQuizAssignment: json["is_quiz_assignment"],
     );
-  }
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "description": description,
+        "due_at": dueAt.toIso8601String(),
+        "points_possible": pp,
+        "grading_type": gradingType,
+        "allowed_attempts": allowedAttempts,
+        "course_id": courseId,
+        "name": name,
+        "has_submitted_submissions": hasSubmitted,
+        "is_quiz_assignment": isQuizAssignment,
+    };
 }
