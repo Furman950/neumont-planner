@@ -44,13 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Course> _courses = [];
   List<Event> _events = [];
 
-  Widget getView(View view, Function(View,DateTime) changeView) {
+  Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
-        return HourView(_assignments, _courses, _events, changeView);
-    }else if(view == View.DAY){
+      return HourView(_assignments, _courses, _events, changeView);
+    } else if (view == View.DAY) {
       return DayView(_assignments, _courses, _events, changeView);
     } else if (view == View.WEEK) {
-      return WeekView(_assignments, _courses, _events, changeView, _selectedDate);
+      return WeekView(
+          _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
       return MonthView(_assignments, _courses, _events, changeView);
     } else {
@@ -71,6 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
         var assignment = new Assignment(id: i, description: "Assignment " + i.toString(), name: "This is worth alotta points", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
         print(assignment.id);
         _assignments.add(assignment);
+      }
+      for (var i = 0; i < 2; i++) {
+        _events.add(new Event(i, "This is a test event", "Test Event",
+            DateTime.now(), DateTime.now().add(new Duration(days: 7))));
       }
     });
   }
