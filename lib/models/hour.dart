@@ -15,9 +15,10 @@ class  Hour extends StatelessWidget {
         children: <Widget>[
           Text(hour),
           ListView(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            children: assignmentList.map((assignment) =>
-              AssignmentCardRow(assignment, false, true, true, true, false, false)
+            children: assignmentList.map( (assignment) =>
+              AssignmentCardRow(assignment, false, true, true, true, false, false),
             ).toList()
             )
           ],

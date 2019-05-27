@@ -12,37 +12,41 @@ abstract class AssignmentCard extends StatelessWidget{
   final bool _showDueDate;
   final bool _showHasSubmitted;
 
-  List<Widget> getWidgetList() {
-    List<Widget> list = [];
+  Container getInfo() {
+    String text = "";
 
     if(_showID){
-      var id =  _assignment.id;
-      list.add(Text("$id"));
+      text += "Id: ${_assignment.id.toString()} ";
     }
 
       if(_showTitle){
-        list.add(Text(_assignment.title + " "));
+      text += "${_assignment.title} ";
       }
 
       if(_showDescription){
-        list.add(Text(_assignment.description + " "));
+      text += "${_assignment.description} ";
       }
 
       if(_showPP){
-        var pp = _assignment.pp;
-        list.add(Text("(Points: $pp) "));
+      text += "(${_assignment.pp} points) ";
       }
 
       if(_showDueDate){
-        var date = _assignment.dueAt;
-        list.add(Text("Due: $date "));
+        text += "Due: ${_assignment.dueAt.month}/${_assignment.dueAt.day}/${_assignment.dueAt.year} ";
       }
 
       if(_showHasSubmitted){
-        var submitted = _assignment.hasSubmitted.toString();
-        list.add(Text( "Submitted: $submitted "));
+      return  Container(
+        child: Text(
+          text,
+          ),
+        color: _showHasSubmitted? Colors.green: Colors.red,
+        );
+      }else{
+        return  Container(
+        child: Text( text),
+        );
       }
-      return  list;
     }
 }
 
@@ -51,19 +55,6 @@ class AssignmentCardRow extends AssignmentCard {
 
   @override
   Widget build(BuildContext context) {
-      return Row(
-        children: getWidgetList(),
-      );
+        return getInfo();
     }
-}
-
-class AssignmentCardColumn extends AssignmentCard{
-  AssignmentCardColumn(Assignment assignment, bool showID, bool showTitle, bool showDescription, bool showPP, bool showDueDate, bool showHasSubmitted) : super(assignment, showID, showTitle, showDescription, showPP, showDueDate, showHasSubmitted);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: getWidgetList()
-    );
-  }
 }
