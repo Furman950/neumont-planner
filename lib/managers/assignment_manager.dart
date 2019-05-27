@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/assignment.dart';
 
 class AssignmentManager extends StatefulWidget {
   @override
