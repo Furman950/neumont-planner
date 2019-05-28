@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/assignment.dart';
+import 'package:neumont_planner/models/assignment_card.dart';
 import 'package:neumont_planner/models/course.dart';
 import 'package:neumont_planner/models/hour.dart';
 import 'package:neumont_planner/models/objects.dart';
@@ -23,16 +24,17 @@ class HourView extends AbstractView {
         ListView(
             children: hourList
                 .map((hour) => Container(
-                    height: 100,
-                    //child: Expanded(
                     child: Row(children: <Widget>[
-                      Text(hour),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child:Text(hour)
+                      ,),
                       Expanded(
                           child: ListView(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               children: assignments
-                                  .map((assignment) => AssignmentCardRow(assignment, false, true, false, true, true, true))
+                                  .map((assignment) => AssignmentCard(assignment, false, true, true, true, false, false, false, true, true, false))
                                   .toList()))
                     ])))
                 .toList())

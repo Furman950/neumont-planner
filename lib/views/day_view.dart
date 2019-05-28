@@ -16,7 +16,7 @@ class DayView extends AbstractView{
         children: assignments.map((index) => Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[new AssignmentCardRow(index,false,true,false,true,false,false)],
+            children: <Widget>[new AssignmentCard(index, false, true, true, true, false, false, false, true, true, false)],
             ),
           )
           ).toList()

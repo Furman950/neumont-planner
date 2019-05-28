@@ -18,7 +18,7 @@ class  Hour extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: assignmentList.map( (assignment) =>
-              AssignmentCardRow(assignment, false, true, true, true, false, false),
+              AssignmentCard(assignment, false, true, true, true, false, false, false, true, true, false)
             ).toList()
             )
           ],

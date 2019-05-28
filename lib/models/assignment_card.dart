@@ -1,69 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/assignment.dart';
 
-abstract class AssignmentCard extends StatelessWidget{
+class AssignmentCard extends StatelessWidget {
 
-  AssignmentCard(this._assignment,this._showID,this._showTitle,this._showDescription,this._showPP,this._showDueDate,this._showHasSubmitted);
   final Assignment _assignment;
-  final bool _showTitle;
+  final bool _showId;
+  final bool _showName;
+  final bool _showCourseId;
   final bool _showDescription;
-  final bool _showID;
   final bool _showPP;
-  final bool _showDueDate;
+  final bool _showDueAt;
+  final bool _showAllowedAttempts;
   final bool _showHasSubmitted;
+  final bool _showIsQuizAssignment;
+  final bool _showGradingType;
 
-  List<Widget> getWidgetList() {
-    List<Widget> list = [];
-
-    if(_showID){
-      var id =  _assignment.id;
-      list.add(Text("$id"));
-    }
-
-      if(_showTitle){
-        list.add(Text(_assignment.title + " "));
-      }
-
-      if(_showDescription){
-        list.add(Text(_assignment.description + " "));
-      }
-
-      if(_showPP){
-        var pp = _assignment.pp;
-        list.add(Text("(Points: $pp) "));
-      }
-
-      if(_showDueDate){
-        var date = _assignment.dueAt;
-        list.add(Text("Due: $date "));
-      }
-
-      if(_showHasSubmitted){
-        var submitted = _assignment.hasSubmitted.toString();
-        list.add(Text( "Submitted: $submitted "));
-      }
-      return  list;
-    }
-}
-
-class AssignmentCardRow extends AssignmentCard {
-  AssignmentCardRow(Assignment assignment, bool showID, bool showTitle, bool showDescription, bool showPP, bool showDueDate, bool showHasSubmitted) : super(assignment, showID, showTitle, showDescription, showPP, showDueDate, showHasSubmitted);
+  AssignmentCard(this._assignment, this._showId, this._showDescription, this._showDueAt, this._showPP, this._showGradingType, this._showAllowedAttempts, this._showCourseId, this._showName, this._showHasSubmitted, this._showIsQuizAssignment);
 
   @override
   Widget build(BuildContext context) {
-      return Row(
-        children: getWidgetList(),
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Text(getTextOfAssignment())
       );
+  }
+    
+  String getTextOfAssignment() {
+    String s = "";
+    if(_showId){
+      s += "id: ${_assignment.id} ";
     }
-}
 
-class AssignmentCardColumn extends AssignmentCard{
-  AssignmentCardColumn(Assignment assignment, bool showID, bool showTitle, bool showDescription, bool showPP, bool showDueDate, bool showHasSubmitted) : super(assignment, showID, showTitle, showDescription, showPP, showDueDate, showHasSubmitted);
+    if(_showName){
+      s += "${_assignment.name} ";
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: getWidgetList()
-    );
+    if(_showCourseId){
+      s += "Course ${_assignment.courseId}";
+    }
+
+    if(_showDescription){
+      s += "${_assignment.description} ";
+    }
+
+    if(_showPP){
+      s += "| ${_assignment.pp}  points | ";
+    }
+
+    if(_showAllowedAttempts){
+      s += "${_assignment.allowedAttempts} attempts";
+    }
+
+    if(_showHasSubmitted){
+      s += _assignment.hasSubmitted? "Submitted": "Not Submitted";
+    }
+
+    if(_showIsQuizAssignment){
+      s+= _assignment.isQuizAssignment? "Quiz ":"";
+    }
+
+    if(_showDueAt){
+      var day = _assignment.dueAt.day;
+      var month = _assignment.dueAt.month;
+      var hour = _assignment.dueAt.hour;
+      var minute = _assignment.dueAt.minute;
+
+      s += " $day/$month @ $hour:$minute ";
+    }
+
+    if(_showGradingType){
+      s+= "${_assignment.gradingType} type ";
+    }
+    return s;
   }
 }

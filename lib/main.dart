@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //simulates Assignment api call;
       for (int i = 0; i < 30; i++) {
         //_assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
-        var assignment = new Assignment(id: i, description: "Assignment " + i.toString(), name: "This is worth alotta points", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
+        var assignment = new Assignment(id: i, name: "Assignment " + i.toString(), description: "Eh you could probably skip this", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
         print(assignment.id);
         _assignments.add(assignment);
       }
