@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:neumont_planner/models/assignment.dart';
-import 'package:neumont_planner/models/assignment_card.dart';
-import 'package:neumont_planner/models/custom_event.dart';
-import 'package:neumont_planner/models/objects.dart';
 
+
+import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/objects/assignment.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
 
 class WeekDateHelper extends StatelessWidget {
   final List<Assignment> assignmentList;

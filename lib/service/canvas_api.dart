@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:neumont_planner/models/assignment.dart';
-import 'package:neumont_planner/models/course.dart';
+import 'package:neumont_planner/models/objects/Course.dart';
+import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/service/abstractServices/canvas_service.dart';
 
 class CanvasAPI implements CanvasService {

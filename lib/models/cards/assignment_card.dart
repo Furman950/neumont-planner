@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neumont_planner/models/assignment.dart';
+import 'package:neumont_planner/models/objects/assignment.dart';
 
 class AssignmentCard extends StatelessWidget {
 

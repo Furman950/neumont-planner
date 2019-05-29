@@ -1,4 +1,5 @@
-import 'package:neumont_planner/models/objects.dart';
+
+import 'package:neumont_planner/models/objects/objects.dart';
 
 abstract class RaspberryPiService {
   void createEvent(Event event, String userId);

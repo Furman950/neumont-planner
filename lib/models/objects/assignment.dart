@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
 
 List<Assignment> assignmentsFromJson(String str) => new List<Assignment>.from(json.decode(str).map((x) => Assignment.fromJson(x)));
 

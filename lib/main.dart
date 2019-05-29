@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:neumont_planner/models/assignment.dart';
-import 'package:neumont_planner/models/course.dart';
-import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
 import 'package:neumont_planner/views/day_view.dart';
+import 'package:neumont_planner/views/hour_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
+import 'package:neumont_planner/views/week_view.dart';
 
-import 'managers/view_manager.dart';
-//import 'pages/login.dart';
-//import 'pages/settings.dart';
-import 'views/hour_view.dart';
-import 'views/week_view.dart';
+import 'models/objects/Course.dart';
+import 'models/objects/assignment.dart';
+import 'views/view_manager.dart';
+
 
 enum View { MONTH, WEEK, DAY, HOUR }
 
@@ -86,31 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     children: <Widget>[
-      //       new UserAccountsDrawerHeader(
-      //         accountName: new Text('Developer'),
-      //         accountEmail: new Text('dev@planner.neumont.edu'),
-      //         currentAccountPicture: new CircleAvatar(
-      //           backgroundImage: new NetworkImage('https://www.neumont.edu/cmsimages/neumont_logo.png'),
-      //         ),
-      //       ),
-      //       new ListTile(
-      //         title: new Text('Settings'),
-      //         onTap: () {
-      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) =>new SettingsPage()));
-      //           }
-      //         ),
-      //       new ListTile(
-      //         title: new Text('Login'),
-      //         onTap: () {
-      //           Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) => new LoginPage()));
-      //         }
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: Center(
         child: Column(
           children: <Widget>[

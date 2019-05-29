@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:neumont_planner/models/objects.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
+
 
 List<Course> coursesFromJson(String str) => new List<Course>.from(json.decode(str).map((x) => Course.fromJson(x)));
 

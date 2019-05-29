@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:neumont_planner/models/assignment.dart';
-import 'package:neumont_planner/models/course.dart';
-import 'package:neumont_planner/models/objects.dart';
-import 'package:neumont_planner/views/abstract_view.dart';
+import 'package:neumont_planner/models/objects/Course.dart';
+import 'package:neumont_planner/models/objects/assignment.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
+
 
 import '../main.dart';
+import 'abstract_view.dart';
 
 class MonthView extends AbstractView {
 
