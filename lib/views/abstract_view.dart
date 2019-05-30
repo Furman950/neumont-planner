@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
 import '../main.dart';
@@ -10,7 +11,7 @@ import '../main.dart';
 abstract class AbstractView extends StatelessWidget {
   final List<Assignment> assignments; 
   final List<Course> courses; 
-  final List<Event> events; 
+  final List<CustomEvent> events; 
   final void Function(View,DateTime) changeView;
   List<GuiObject>  getMasterList(){
     List<GuiObject> list = [];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
-import 'package:neumont_planner/models/objects/objects.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 
 
 import '../main.dart';
@@ -9,7 +9,7 @@ import 'abstract_view.dart';
 
 class MonthView extends AbstractView {
 
-  MonthView(List<Assignment> assignments, List<Course> courses, List<Event> events, changeView) : super(assignments, courses, events, changeView);
+  MonthView(List<Assignment> assignments, List<Course> courses, List<CustomEvent> events, changeView) : super(assignments, courses, events, changeView);
 
   @override
   Widget build(BuildContext context) {
