@@ -4,6 +4,7 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.2.2 <3.0.0"
 dependencies:
+  uuid: ^2.0.1
   http: ^0.12.0+2
   flutter:
     sdk: flutter

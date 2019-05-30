@@ -73,8 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _assignments.add(assignment);
       }
       for (var i = 0; i < 2; i++) {
-        _events.add(new Event(i, "This is a test event", "Test Event",
-            DateTime.now(), DateTime.now().add(new Duration(days: 7))));
+        // _events.add(new Event(id:i, "This is a test event", "Test Event",
+        //     DateTime.now(), DateTime.now().add(new Duration(days: 7))));
       }
     });
   }

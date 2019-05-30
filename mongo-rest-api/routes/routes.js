@@ -1,7 +1,7 @@
 const express = require('express')
 const ObjectId = require('mongodb').ObjectID
 
-const Document = require('../models/CalendarEvent')
+const Document = require('../models/Event')
 const router = express.Router()
 const collection = 'events'
 
@@ -42,14 +42,15 @@ router.get('/events/:id', (req, res, next) => {
 
 router.post('/events/new', (req, res, next) => {
   console.log("-------in /events/new --------")
-  const newDocument = new Document(
+  const event = new Event(
+    req.body.id,
+    req.body.userId,
     req.body.title,
     req.body.description,
-    req.body.id,
-    req.body.start,
-    req.body.end)
+    req.body.startTime,
+    req.body.endTime)
   req.app.locals.db.collection(collection).insertOne({
-    newDocument
+    event
   }, (err, result) => {
     if (err) {
       res.status(400).send({ 'error': err })
@@ -58,6 +59,13 @@ router.post('/events/new', (req, res, next) => {
   })
   console.log("--------END---------")
 })
+
+router.get("/getNewObjectId", (req, res, next) => {
+  console.log("----- in getNewObjectId ------")
+  
+  req.app.locals.db.ObjectID
+  console.log("--------- END --------")
+});
 
 router.delete('/events/delete/:id', (req, res, next) => {
   console.log("--- in /events/delete/:id------")
@@ -80,11 +88,12 @@ router.patch('/events/edit/:id', (req, res, next) => {
     {
       $set:
       {
+        id: req.body.id,
+        userId: req.body.userId,
         title: req.body.title,
         description: req.body.description,
-        id: req.body.id,
-        start: req.body.start,
-        end: req.body.end
+        startTime: req.body.startTime,
+        endtiem: req.body.endTime
       }
     }, (err, result) => {
       if (err) {
@@ -96,7 +105,7 @@ router.patch('/events/edit/:id', (req, res, next) => {
 })
 router.get('/test', (req, res, next) => {
   console.log("-------in /test ------")
-  req.app.locals.db.collection(collection).insert({ title: "test" });
+  req.app.locals.db.collection(collection).insertOne();
   res.status(200).send({ ok: "ok" })
   console.log("-------- END ----------")
 })
