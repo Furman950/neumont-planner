@@ -1,8 +1,8 @@
-import 'package:neumont_planner/models/objects/objects.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 
 abstract class RaspberryPiService {
-  void createEvent(Event event, String userId);
-  void updateEvent(Event event, String userId);
+  void createEvent(CustomEvent event, String userId);
+  void updateEvent(CustomEvent event, String userId);
   void deleteEvent(String eventId, String userId);
-  Future<List<Event>> getAllEventsForUser(String userId);
+  Future<List<CustomEvent>> getAllEventsForUser(String userId);
 }

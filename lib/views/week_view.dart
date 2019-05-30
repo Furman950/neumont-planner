@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:neumont_planner/helper/week_date_helper.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
-import 'package:neumont_planner/models/objects/objects.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/views/summary_view.dart';
 
 import '../main.dart';
@@ -14,7 +14,7 @@ class WeekView extends AbstractView {
   final DateTime date;
 
   WeekView(List<Assignment> assignments, List<Course> courses,
-      List<Event> events, changeView, this.date)
+      List<CustomEvent> events, changeView, this.date)
       : super(assignments, courses, events, changeView);
 
   @override
@@ -85,7 +85,7 @@ enum _WeekDay {
 }
 
 List<Container> buildCards(
-    List<String> dates, List<Assignment> assignments, List<Event> events) {
+    List<String> dates, List<Assignment> assignments, List<CustomEvent> events) {
   List<Container> toReturn = new List<Container>();
   for (String item in dates) {
     toReturn.add(new Container(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
-import 'package:neumont_planner/models/objects/objects.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/hour_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
@@ -8,6 +7,7 @@ import 'package:neumont_planner/views/week_view.dart';
 
 import 'models/objects/Course.dart';
 import 'models/objects/assignment.dart';
+import 'models/objects/custom_event.dart';
 import 'views/view_manager.dart';
 
 
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime _selectedDate = DateTime.now();
   List<Assignment> _assignments = [];
   List<Course> _courses = [];
-  List<Event> _events = [];
+  List<CustomEvent> _events = [];
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {

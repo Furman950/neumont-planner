@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/cards/assignment_card.dart';
-import 'package:neumont_planner/models/cards/custom_event_card.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
-import 'package:neumont_planner/models/objects/objects.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 
 class WeekDateHelper extends StatelessWidget {
   final List<Assignment> assignmentList;
-  final List<Event> eventLists;
+  final List<CustomEvent> eventLists;
   // final List<Course> courseLists;
   final String timeString;
   WeekDateHelper(this.assignmentList, this.eventLists, this.timeString);
@@ -26,7 +25,7 @@ class WeekDateHelper extends StatelessWidget {
     );
   }
 
-  String buildChildren(List<Assignment> assignments, List<Event> events) {
+  String buildChildren(List<Assignment> assignments, List<CustomEvent> events) {
     String toReturn = "";
 
     if (assignments.length > 4) {
