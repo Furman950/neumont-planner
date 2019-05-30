@@ -98,3 +98,4 @@ coverage/
 node_modules/
 data/
 docker/data/
+encrypt/
