@@ -60,7 +60,7 @@ class MonthView extends AbstractView {
         color = Colors.red;
       }
 
-      if (day.day == today.day+2 && day.month == today.month && day.year == today.year){
+      if (day.day == today.day && day.month == today.month && day.year == today.year){
         color = Colors.orange;
       }
 
@@ -71,7 +71,7 @@ class MonthView extends AbstractView {
           child: new RaisedButton(
             color: color,
             child: new Text('${day.day}'),
-             onPressed: () => changeView(View.DAY, day)
+             onPressed: () => changeView(View.WEEK, day)
           ),
         ),
       );
