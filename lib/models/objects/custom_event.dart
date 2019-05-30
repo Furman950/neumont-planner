@@ -1,81 +1,46 @@
 import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
-List<CustomEvent> customEventFromJson(String str) => new List<CustomEvent>.from(json.decode(str).map((x) => CustomEvent.fromJson(x)));
+import 'objects.dart';
 
-String customEventToJson(List<CustomEvent> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
+List<CustomEvent> eventsFromJson(String str) => new List<CustomEvent>.from(json.decode(str).map((x) => CustomEvent.fromJson(x)));
 
-class CustomEvent {
+String eventsToJson(List<CustomEvent> data) => json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
+
+class CustomEvent extends GuiObject{
     String id;
-    NewDocument newDocument;
+    int userId;
     String title;
-    dynamic description;
-    dynamic customEventId;
-    dynamic start;
-    dynamic end;
+    String description;
+    DateTime startTime;
+    DateTime endTime;
 
     CustomEvent({
         this.id,
-        this.newDocument,
         this.title,
         this.description,
-        this.customEventId,
-        this.start,
-        this.end,
-    });
+        this.userId,
+        this.startTime,
+        this.endTime,
+    }) : super(description, title, endTime){
+      this.id = new Uuid().v4();
+    }
 
     factory CustomEvent.fromJson(Map<String, dynamic> json) => new CustomEvent(
         id: json["_id"],
-        newDocument: NewDocument.fromJson(json["newDocument"]),
-        title: json["title"] == null ? null : json["title"],
+        title: json["title"],
         description: json["description"],
-        customEventId: json["id"],
-        start: json["start"],
-        end: json["end"],
+        userId: json["id"],
+        startTime: json["startTime"],
+        endTime: json["endTime"],
     );
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "newDocument": newDocument.toJson(),
-        "title": title == null ? null : title,
+        "title": title,
         "description": description,
-        "id": customEventId,
-        "start": start,
-        "end": end,
-    };
-}
-
-class NewDocument {
-    String name;
-    String description;
-    String id;
-    String start;
-    String end;
-    String title;
-
-    NewDocument({
-        this.name,
-        this.description,
-        this.id,
-        this.start,
-        this.end,
-        this.title,
-    });
-
-    factory NewDocument.fromJson(Map<String, dynamic> json) => new NewDocument(
-        name: json["Name"] == null ? null : json["Name"],
-        description: json["Description"],
-        id: json["Id"],
-        start: json["Start"],
-        end: json["End"],
-        title: json["title"] == null ? null : json["title"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "Name": name == null ? null : name,
-        "Description": description,
-        "Id": id,
-        "Start": start,
-        "End": end,
-        "title": title == null ? null : title,
+        "userId": userId,
+        "startTime": startTime,
+        "endTime": endTime,
     };
 }
