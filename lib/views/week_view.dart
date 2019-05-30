@@ -6,7 +6,6 @@ import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
-
 import '../main.dart';
 import 'abstract_view.dart';
 
@@ -31,24 +30,12 @@ class WeekView extends AbstractView {
     DateTime _firstOfWeek =
         currentDate.subtract(new Duration(days: currentDate.weekday));
 
-    print(_firstOfWeek);
+    // print(_firstOfWeek);
 
     DateTime fromFirstOfWeek = _firstOfWeek;
 
-    // for (var i = 6, j = 0; j < 7; i++, j++) {
-    //   // print("${describeEnum(_WeekDay.values[i])} ${_thisWeek.month}/${(_thisWeek.day+j)}");
-    //   dates.add(
-    //       "${describeEnum(_WeekDay.values[i])}, ${_firstOfWeek.month}/${(_firstOfWeek.day + j)}");
-    //   if (i == 6) {
-    //     i = -1;
-    //   }
-    // }
-
     for (var i = 0; i < 7; i++) {
       DateTime temp = fromFirstOfWeek.add(new Duration(days: i));
-      // print(fromFirstOfWeek.add(new Duration(days: i)));
-      // dates.add(
-      //     "${describeEnum(_WeekDay.values[fromFirstOfWeek.weekday - 1])}, ${fromFirstOfWeek.month}/${fromFirstOfWeek.day}");
       dates.add(
           "${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}");
     }
@@ -105,12 +92,10 @@ List<Container> buildCards(
   List<Container> toReturn = new List<Container>();
   for (String item in dates) {
     toReturn.add(new Container(
-      height: 100,
-      child: Card(
-        child: Column(
-            children: <Widget>[WeekDateHelper(assignments, events, item)]),
-      ),
-    ));
+        child: Card(
+      child:
+          Column(children: <Widget>[WeekDateHelper(assignments, events, item)]),
+    )));
   }
   return toReturn;
 }
