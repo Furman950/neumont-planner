@@ -10,7 +10,7 @@ class CustomEventCard extends StatelessWidget {
     }
       
     String getEventCardText() {
-      String s = "";
+      String s = "Event";
 
       return s;
     }

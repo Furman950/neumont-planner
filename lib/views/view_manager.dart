@@ -41,11 +41,11 @@ class ViewManager extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         );
       case View.WEEK:
-        DateTime viewingWeek =
-            selectedDate.subtract(new Duration(days: selectedDate.weekday));
+        DateTime startOfWeek = selectedDate.subtract(new Duration(days: selectedDate.weekday));
+        DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
         return Padding(
           child: Text(
-            "${viewingWeek.month}/${viewingWeek.day}/${viewingWeek.year} - ${viewingWeek.month}/${viewingWeek.day + 6}/${viewingWeek.year}",
+            "${startOfWeek.month}/${startOfWeek.day}/${startOfWeek.year} - ${endOfWeek.month}/${endOfWeek.day }/${endOfWeek.year}",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/helper/dateTime_Strings.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 
 class AssignmentCard extends StatelessWidget {
@@ -62,10 +63,8 @@ class AssignmentCard extends StatelessWidget {
     if(_showDueAt){
       var day = _assignment.dueAt.day;
       var month = _assignment.dueAt.month;
-      var hour = _assignment.dueAt.hour;
-      var minute = _assignment.dueAt.minute;
 
-      s += " $month/$day @ $hour:$minute ";
+      s += " $month/$day @ ${getHourAndMinuteByTime(_assignment.dueAt)}";
     }
 
     if(_showGradingType){

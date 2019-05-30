@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/helper/dateTimeFilter.dart';
+import 'package:neumont_planner/helper/dateTime_Strings.dart';
 import 'package:neumont_planner/models/cards/assignment_card.dart';
+import 'package:neumont_planner/models/cards/course_card.dart';
+import 'package:neumont_planner/models/cards/custom_event_card.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
 
 import 'abstract_view.dart';
-
 
 class HourView extends AbstractView {
   
@@ -15,10 +18,10 @@ class HourView extends AbstractView {
   @override
   Widget build(BuildContext context) {
 
-    List<String> hourList = [];
+    List<int> hourList = [];
 
     for (var i = 0; i < 24; i++) {
-      hourList.add(i.toString());
+      hourList.add(i);
     }
     return Expanded(
       child: Padding(
@@ -31,15 +34,13 @@ class HourView extends AbstractView {
                   child: Row(children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(10),
-                      child:Text("$hour:00")
+                      child:Text(getHourAndMinute(hour,0))
                       ,),
                     Expanded(
                       child: ListView(
                         shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          children: getObjectsByHour(selectedDate, assignments).map((assignment) => 
-                            AssignmentCard(assignment, false, true, true, true, false, false, false, true, true, false)
-                          ).toList()
+                          children: buildWidgetListForHour(getObjectsByHour(new DateTime(selectedDate.year,selectedDate.month,selectedDate.day,hour),getMasterList()))
                         )
                       )
                     ])
@@ -50,4 +51,18 @@ class HourView extends AbstractView {
         )
     );
   }
+  List<Widget> buildWidgetListForHour(List<GuiObject> objs ){
+    List<Widget> toBeReturned = [];
+
+    for (var obj in objs) {
+      if(obj is Assignment){
+        toBeReturned.add(AssignmentCard(obj, false, true, true, true, false, false, false, true, true, false));
+      }else if (obj is CustomEvent) {
+        toBeReturned.add(CustomEventCard());
+      }else if(obj is Course){
+        toBeReturned.add(CourseCard(obj, false, true, false, true, false, false, true));
+      }
+    }
+    return toBeReturned;
+  }                   
 }

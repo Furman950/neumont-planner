@@ -20,7 +20,7 @@ List<GuiObject> getObjectsByWeek(DateTime filter, List<GuiObject> objs){
   List<GuiObject> toBeReturned = [];
 
   objs.forEach((x) =>{
-    if(x.sortDateTime.isAfter(filter) && x.sortDateTime.isBefore(filter.add(Duration(days: 7)))){
+    if(x.sortDateTime.isAfter(filter) && x.sortDateTime.isBefore(filter.add(Duration(days: 6)))){
       toBeReturned.add(x)
     }
   }
