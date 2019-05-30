@@ -6,7 +6,6 @@ import 'package:neumont_planner/models/objects/custom_event.dart';
 class WeekDateHelper extends StatelessWidget {
   final List<Assignment> assignmentList;
   final List<CustomEvent> eventLists;
-  // final List<Course> courseLists;
   final String timeString;
   WeekDateHelper(this.assignmentList, this.eventLists, this.timeString);
 
@@ -17,9 +16,6 @@ class WeekDateHelper extends StatelessWidget {
         Text(timeString),
         Column(
           children: <Widget>[Text(buildChildren(assignmentList, eventLists))],
-          // children: <Widget>[
-          //   Text(buildDisplayString(assignmentList, eventLists))
-          // ])
         )
       ],
     );

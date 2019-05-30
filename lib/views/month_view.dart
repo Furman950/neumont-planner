@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
+import 'package:neumont_planner/views/summary_view.dart';
 
 
 import '../main.dart';
@@ -9,12 +11,11 @@ import 'abstract_view.dart';
 
 class MonthView extends AbstractView {
 
-  MonthView(List<Assignment> assignments, List<Course> courses, List<CustomEvent> events, changeView) : super(assignments, courses, events, changeView);
+  MonthView(List<Assignment> assignments, List<Course> courses, List<CustomEvent> events, changeView, DateTime selected) : super(assignments, courses, events, changeView,selected);
 
   @override
   Widget build(BuildContext context) {
   List<Container> monthView = [];
-  List<Container> monthEvent = [];
     DateTime today = DateTime.now();
     DateTime firstDayOfMonth = new DateTime(today.year, today.month, 1);
     int offset = 0;
@@ -75,42 +76,6 @@ class MonthView extends AbstractView {
           ),
         ),
       );
-
-      for(int j = 0; j < assignments.length; j++){
-        if (assignments[j].dueAt.day == day.day && assignments[j].dueAt.month == day.month) {
-          monthEvent.add(
-            new Container(
-              child: new Card(
-                color: color,
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget> [
-                    new Text('${day.month}/${day.day} - ${assignments[j].title}')
-                  ]
-                )
-              )
-            )
-          );
-        }
-      }
-
-      for(int j = 0; j < events.length; j++){
-        if (events[j].startTime.day == day.day && events[j].startTime.month == day.month) {
-          monthEvent.add(
-            new Container(
-              child: new Card(
-                color: color,
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget> [
-                    new Text('${day.month}/${day.day} - ${events[j].title}')
-                  ]
-                )
-              )
-            )
-          );
-        }
-      }
     }
 
     return Expanded(
@@ -133,6 +98,7 @@ class MonthView extends AbstractView {
             width: 700,
             height: 355,
             child: GridView.count(
+              physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 7,
               childAspectRatio: 1.0,
               padding: const EdgeInsets.fromLTRB(10,10,10,0),
@@ -141,15 +107,8 @@ class MonthView extends AbstractView {
               children: monthView,
             ),
           ),
-          new Container(
-            height: 146.4,
-            child: new ListView(
-              padding: const EdgeInsets.fromLTRB(7,0,7,7),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              children: monthEvent,
-            )
-          )
+          Text("Summary"),
+          SummaryView(getObjectsByMonth(selectedDate, getMasterList()))
         ]
       )
     );
