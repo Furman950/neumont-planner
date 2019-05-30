@@ -22,7 +22,7 @@ class CustomEvent extends GuiObject{
         this.userId,
         this.startTime,
         this.endTime,
-    }) : super(description, title, endTime){
+    }) : super(description, title, startTime){
       this.id = new Uuid().v4();
     }
 

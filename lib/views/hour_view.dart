@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neumont_planner/helper/timeObjects.dart';
+import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/models/cards/assignment_card.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
@@ -10,7 +10,7 @@ import 'abstract_view.dart';
 
 class HourView extends AbstractView {
   
-  HourView(List<Assignment> assignments, List<Course> courses,List<CustomEvent> events, changeView): super(assignments, courses, events, changeView);
+  HourView(List<Assignment> assignments, List<Course> courses,List<CustomEvent> events, changeView,DateTime selected): super(assignments, courses, events, changeView,selected);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class HourView extends AbstractView {
                       child: ListView(
                         shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          children: getObjectsByHour(hour, assignments).map((assignment) => 
+                          children: getObjectsByHour(selectedDate, assignments).map((assignment) => 
                             AssignmentCard(assignment, false, true, true, true, false, false, false, true, true, false)
                           ).toList()
                         )

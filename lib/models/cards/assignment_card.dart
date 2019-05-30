@@ -65,7 +65,7 @@ class AssignmentCard extends StatelessWidget {
       var hour = _assignment.dueAt.hour;
       var minute = _assignment.dueAt.minute;
 
-      s += " $day/$month @ $hour:$minute ";
+      s += " $month/$day @ $hour:$minute ";
     }
 
     if(_showGradingType){

@@ -13,6 +13,7 @@ abstract class AbstractView extends StatelessWidget {
   final List<Course> courses; 
   final List<CustomEvent> events; 
   final void Function(View,DateTime) changeView;
+  final DateTime selectedDate;
   List<GuiObject>  getMasterList(){
     List<GuiObject> list = [];
     list.addAll(assignments);
@@ -23,5 +24,5 @@ abstract class AbstractView extends StatelessWidget {
      return list;
   }
 
-  AbstractView(this.assignments, this.courses, this.events, this.changeView) ;
+  AbstractView(this.assignments, this.courses, this.events, this.changeView,this.selectedDate) ;
 }

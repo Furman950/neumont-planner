@@ -10,7 +10,7 @@ import 'abstract_view.dart';
 
 class DayView extends AbstractView{
 
-  DayView(List<Assignment> assignments, List<Course> courses, List<CustomEvent> events, changeView) : super(assignments, courses, events, changeView);
+  DayView(List<Assignment> assignments, List<Course> courses, List<CustomEvent> events, changeView,DateTime selected) : super(assignments, courses, events, changeView,selected);
 
   @override
   Widget build(BuildContext context) {

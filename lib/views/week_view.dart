@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/helper/week_date_helper.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
@@ -11,31 +12,23 @@ import '../main.dart';
 import 'abstract_view.dart';
 
 class WeekView extends AbstractView {
-  final DateTime date;
 
-  WeekView(List<Assignment> assignments, List<Course> courses,
-      List<CustomEvent> events, changeView, this.date)
-      : super(assignments, courses, events, changeView);
+  WeekView(List<Assignment> assignments, List<Course> courses,List<CustomEvent> events, changeView, DateTime selected): super(assignments, courses, events, changeView,selected);
 
   @override
   Widget build(BuildContext context) {
-    DateTime currentDate = DateTime.now();
-    List<String> dates = [];
+    List<String> dateStrings = [];
+    List<DateTime> dates = [];
 
-    DateTime _firstOfWeek =
-        currentDate.subtract(new Duration(days: currentDate.weekday));
-
-    // print(_firstOfWeek);
+    DateTime _firstOfWeek =selectedDate.subtract(new Duration(days: selectedDate.weekday));
 
     DateTime fromFirstOfWeek = _firstOfWeek;
 
     for (var i = 0; i < 7; i++) {
       DateTime temp = fromFirstOfWeek.add(new Duration(days: i));
-      dates.add(
-          "${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}");
+      dates.add(temp);
+      dateStrings.add("${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}");
     }
-
-    List<Container> cardList = buildCards(dates, assignments, events);
 
     double start = 0;
     double update = 0;
@@ -46,13 +39,13 @@ class WeekView extends AbstractView {
           Container(
             height: 370,
              child:ListView(
-              children: cardList)
+              children:  buildCards(dateStrings, dates,assignments, events))
             ),
             Text("Summary"),
-            SummaryView(getMasterList())
+            SummaryView(getObjectsByWeek(selectedDate, getMasterList()))
         ],),
         onTap: () {
-          changeView(View.DAY, currentDate);
+          changeView(View.DAY, selectedDate);
         },
         onPanStart: (DragStartDetails details) {
           start = details.globalPosition.dx;
@@ -62,10 +55,10 @@ class WeekView extends AbstractView {
         },
         onPanEnd: (DragEndDetails details) {
           if (update - start > 0) {
-            DateTime toPass = currentDate.subtract(new Duration(days: 7));
+            DateTime toPass = selectedDate.subtract(new Duration(days: 7));
             changeView(View.WEEK, toPass);
           } else {
-            DateTime toPass = currentDate.add(new Duration(days: 7));
+            DateTime toPass = selectedDate.add(new Duration(days: 7));
             changeView(View.WEEK, toPass);
           }
         },
@@ -84,14 +77,13 @@ enum _WeekDay {
   SUNDAY
 }
 
-List<Container> buildCards(
-    List<String> dates, List<Assignment> assignments, List<CustomEvent> events) {
+List<Container> buildCards(List<String> dateStrings, List<DateTime> dates , List<Assignment> assignments, List<CustomEvent> events) {
   List<Container> toReturn = new List<Container>();
-  for (String item in dates) {
+  for (String item in dateStrings) {
     toReturn.add(new Container(
         child: Card(
-      child:
-          Column(children: <Widget>[WeekDateHelper(assignments, events, item),]),
+          child: Column(
+            children: <Widget>[WeekDateHelper(assignments, events, item),]),
     )));
   }
   return toReturn;

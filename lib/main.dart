@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/views/day_view.dart';
@@ -46,14 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
-      return HourView(_assignments, _courses, _events, changeView);
+      return HourView(_assignments, _courses, _events, changeView,_selectedDate);
     } else if (view == View.DAY) {
-      return DayView(_assignments, _courses, _events, changeView);
+      return DayView(_assignments, _courses, _events, changeView,_selectedDate);
     } else if (view == View.WEEK) {
-      return WeekView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return WeekView( _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
-      return MonthView(_assignments, _courses, _events, changeView);
+      return MonthView(_assignments, _courses, _events, changeView,_selectedDate);
     } else {
       return Text('Yikes');
     }
@@ -67,11 +68,16 @@ class _MyHomePageState extends State<MyHomePage> {
       _currentViewType = view;
       _selectedDate = newDate;
       //simulates Assignment api call;
-      for (int i = 0; i < 30; i++) {
-        var assignment = new Assignment(id: i, name: "Assignment " + i.toString(), description: "Eh you could probably skip this", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
+      Random r = new Random();
+      for (int i = 0; i < 55; i++) {
+        var rDate = new DateTime.utc(DateTime.now().year, r.nextInt(11)+1,r.nextInt(27)+1, r.nextInt(24),r.nextInt(60));
+        var assignment = new Assignment(id: i, name: "Assignment ${i.toString()}" , description: "Eh you could probably skip this", pp: 25, dueAt: rDate, hasSubmitted: false);
         _assignments.add(assignment);
       }
-      for (var i = 0; i < 2; i++) {
+      for (var i = 0; i < 14; i++) {
+        var rDate = new DateTime.utc(DateTime.now().year, r.nextInt(11)+1,r.nextInt(27)+1, r.nextInt(24),r.nextInt(60));
+        var event = new CustomEvent(id: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
+        _events.add(event);
       }
     });
   }
