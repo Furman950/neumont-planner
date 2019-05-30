@@ -29,7 +29,7 @@ class Assignment extends GuiObject{
         this.name,
         this.hasSubmitted,
         this.isQuizAssignment,
-    }) : super(id, description, name, dueAt);
+    }) : super(description, name, dueAt);
 
     factory Assignment.fromJson(Map<String, dynamic> json) => new Assignment(
         id: json["id"],

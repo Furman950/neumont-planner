@@ -5,6 +5,7 @@ import 'package:neumont_planner/helper/week_date_helper.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
+import 'package:neumont_planner/views/summary_view.dart';
 
 import '../main.dart';
 import 'abstract_view.dart';
@@ -18,14 +19,8 @@ class WeekView extends AbstractView {
 
   @override
   Widget build(BuildContext context) {
-    DateTime currentDate;
+    DateTime currentDate = DateTime.now();
     List<String> dates = [];
-
-    if (date == null) {
-      currentDate = DateTime.now();
-    } else {
-      currentDate = date;
-    }
 
     DateTime _firstOfWeek =
         currentDate.subtract(new Duration(days: currentDate.weekday));
@@ -47,9 +42,15 @@ class WeekView extends AbstractView {
 
     return Expanded(
       child: new GestureDetector(
-        child: ListView(
-          children: cardList,
-        ),
+        child: Column(children: <Widget>[
+          Container(
+            height: 370,
+             child:ListView(
+              children: cardList)
+            ),
+            Text("Summary"),
+            SummaryView(getMasterList())
+        ],),
         onTap: () {
           changeView(View.DAY, currentDate);
         },
@@ -61,13 +62,9 @@ class WeekView extends AbstractView {
         },
         onPanEnd: (DragEndDetails details) {
           if (update - start > 0) {
-            //previoius
-            // print(currentDate.toString());
             DateTime toPass = currentDate.subtract(new Duration(days: 7));
-            // print(toPass.toString());
             changeView(View.WEEK, toPass);
           } else {
-            //next
             DateTime toPass = currentDate.add(new Duration(days: 7));
             changeView(View.WEEK, toPass);
           }
@@ -94,7 +91,7 @@ List<Container> buildCards(
     toReturn.add(new Container(
         child: Card(
       child:
-          Column(children: <Widget>[WeekDateHelper(assignments, events, item)]),
+          Column(children: <Widget>[WeekDateHelper(assignments, events, item),]),
     )));
   }
   return toReturn;

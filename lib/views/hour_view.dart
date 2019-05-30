@@ -31,7 +31,7 @@ class HourView extends AbstractView {
                   child: Row(children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(10),
-                      child:Text(hour)
+                      child:Text("$hour:00")
                       ,),
                     Expanded(
                       child: ListView(

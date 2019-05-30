@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/hour_view.dart';
@@ -67,20 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedDate = newDate;
       //simulates Assignment api call;
       for (int i = 0; i < 30; i++) {
-        //_assignments.add(new Assignment(i, "Assignment " + i.toString(), "This is worth alotta points", 25.0, DateTime.now().add(new Duration(days: -15+i)), false));
         var assignment = new Assignment(id: i, name: "Assignment " + i.toString(), description: "Eh you could probably skip this", pp: 25, dueAt: DateTime.now().add(new Duration(days: -15 + 1)), hasSubmitted: false);
-        print(assignment.id);
         _assignments.add(assignment);
       }
       for (var i = 0; i < 2; i++) {
-        // _events.add(new Event(id:i, "This is a test event", "Test Event",
-        //     DateTime.now(), DateTime.now().add(new Duration(days: 7))));
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    changeView(_currentViewType, _selectedDate);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),

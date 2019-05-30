@@ -24,7 +24,7 @@ class Course extends GuiObject{
         this.createdAt,
         this.courseCode,
         this.endAt
-    }) : super(id, "", name, startAt);
+    }) : super("", name, startAt);
 
     factory Course.fromJson(Map<String, dynamic> json) => new Course(
         id: json["id"],
