@@ -1,6 +1,6 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/models/cards/assignment_card.dart';
+import 'package:neumont_planner/models/cards/custom_event_card.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
@@ -16,48 +16,32 @@ class WeekDateHelper extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(timeString),
-        ListView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Text(buildDisplayString(assignmentList, eventLists))
-            ]
-            //     assignmentList.length < 4
-            //         ? assignmentList
-            //             .map((assignment) => AssignmentCardRow(
-            //                 assignment, false, true, true, true, false, false))
-            //             .toList()
-            //         : <Widget>[
-            //             Text("${assignmentList.length.toString()} assignments")
-            //           ]),
-            // // assignmentList
-            // //     .map((assignment) => AssignmentCardColumn(
-            // //         assignment, false, true, true, true, false, false))
-            // //     .toList()),
-            // ListView(
-            //     shrinkWrap: true,
-            //     physics: NeverScrollableScrollPhysics(),
-            //     children: eventLists
-            //         .map((events) => EventCartListColumn(events))
-            //         .toList())
-            )
+        Column(
+          children: <Widget>[Text(buildChildren(assignmentList, eventLists))],
+          // children: <Widget>[
+          //   Text(buildDisplayString(assignmentList, eventLists))
+          // ])
+        )
       ],
     );
   }
 
-  String buildDisplayString(List<Assignment> assignments, List<Event> events) {
-    String eventStr = "Total Events: ${events.length}";
-    String assignmentStr = "";
-    if (assignments.length < 3) {
-      for (var i = 0; i < assignments.length; i++) {
-        if (i == 2) {
-          assignmentStr += assignments[i].title.toString();
-        }
-        assignmentStr += assignments[i].title.toString() + "\n";
-      }
+  String buildChildren(List<Assignment> assignments, List<Event> events) {
+    String toReturn = "";
+
+    if (assignments.length > 4) {
+      toReturn += "${assignments.length} assignments\n";
     } else {
-      assignmentStr += "${assignments.length.toString()} assignments";
+      List<AssignmentCard> list = assignments
+          .map((a) => new AssignmentCard(a, false, true, true, false, false,
+              false, false, true, true, false))
+          .toList();
+
+      for (AssignmentCard item in list) {
+        toReturn += "${item.toString()}\n";
+      }
     }
-    return "$assignmentStr$eventStr";
+    toReturn += "${events.length} events";
+    return toReturn;
   }
 }
