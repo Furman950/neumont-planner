@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       for (var i = 0; i < 94; i++) {
         var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
-        var event = new CustomEvent(id: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
+        var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
         _events.add(event);
       }
     });

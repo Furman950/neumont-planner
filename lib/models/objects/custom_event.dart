@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:uuid/uuid.dart';
 
 import 'objects.dart';
 
 List<CustomEvent> eventsFromJson(String str) => new List<CustomEvent>.from(
     json.decode(str).map((x) => CustomEvent.fromJson(x)));
 
+CustomEvent eventFromJson(String str) => CustomEvent.fromJson(json.decode(str));
+
 String eventsToJson(List<CustomEvent> data) =>
     json.encode(new List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CustomEvent extends GuiObject {
-  String id;
+  String mongoId;
   int userId;
   String title;
   String description;
@@ -19,27 +20,27 @@ class CustomEvent extends GuiObject {
   DateTime endTime;
 
   CustomEvent({
-    this.id,
+    this.mongoId,
     this.title,
     this.description,
     this.userId,
     this.startTime,
     this.endTime,
   }) : super(description, title, startTime) {
-    this.id = createMongoId();
+    this.mongoId = createMongoId();
   }
 
   factory CustomEvent.fromJson(Map<String, dynamic> json) => new CustomEvent(
-        id: json["_id"],
+        mongoId: json["mongoId"],
         title: json["title"],
         description: json["description"],
         userId: json["id"],
-        startTime: json["startTime"],
-        endTime: json["endTime"],
+        startTime: json["startTime"] == null ? null : DateTime.parse(json["startTime"]),
+        endTime: json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "mongoId": mongoId,
         "title": title,
         "description": description,
         "userId": userId,

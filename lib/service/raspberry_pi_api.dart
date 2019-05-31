@@ -46,28 +46,56 @@ class RaspberryPiAPI implements RaspberryPiService {
 
   @override
   Future<List<CustomEvent>> getAllEventsForUser(String accessToken) async {
-    final response = await http.get(_baseEndPoint + "all",
-        headers: {HttpHeaders.authorizationHeader: "Bearer " + accessToken});
+    print("_______________________GET_ALL_EVENTS_FOR_USER____________________________");
+    var client = HttpClient();
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
 
+    var request = await client.getUrl(Uri.parse(_baseEndPoint + "all"));
+    request.headers.set("Authorization", "Bearer " + accessToken);
+    var response = await request.close();
+    var reply = await response.transform(utf8.decoder).join();
+    print(reply);
     var completer = new Completer<List<CustomEvent>>();
-    completer.complete(eventsFromJson(response.body));
+    completer.complete(eventsFromJson(reply));
+    completer.future.asStream().forEach((e) => e.forEach((ev) => print(ev.title)));
+    print("_______________________GET_ALL_EVENTS_FOR_USER____________________________");
 
     return completer.future;
   }
 
   @override
   void updateEvent(CustomEvent event, String accessToken) async {
-    await http.patch(_baseEndPoint + "edit/" + event.id,
-        headers: {HttpHeaders.authorizationHeader: "Bearer " + accessToken});
+    print("_______________________UPDATE_EVENT____________________________");
+    var client = HttpClient();
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+
+    var request = await client.patchUrl(Uri.parse(_baseEndPoint + "edit/" + event.mongoId));
+    request.headers.set("Authorization", "Bearer " + accessToken);
+    request.headers.set('content-type', 'application/json');
+    request.add(utf8.encode(json.encode(event.toJson())));
+    var response = await request.close();
+    var reply = await response.transform(utf8.decoder).join();
+    print(reply);
+    print("_______________________END_UPDATE_EVENT____________________________");
   }
 
   @override
   Future<CustomEvent> getEventById(String eventId, String accessToken) async {
-    final response = await http.get(_baseEndPoint + eventId,
-        headers: {HttpHeaders.authorizationHeader: "Bearer " + accessToken});
+    print("_______________________GET_EVENT_BY_ID____________________________");
+    var client = HttpClient();
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
 
+    var request = await client.getUrl(Uri.parse(_baseEndPoint + eventId));
+    request.headers.set("Authorization", "Bearer " + accessToken);
+    var response = await request.close();
+    var reply = await response.transform(utf8.decoder).join();
+    print(reply);
     var completer = new Completer<CustomEvent>();
-    completer.complete(eventsFromJson(response.body)[0]);
+    completer.complete(eventFromJson(reply));
+    print("_______________________GET_EVENT_BY_ID____________________________");
 
     return completer.future;
   }
