@@ -1,6 +1,6 @@
 module.exports = class CustomEvent{
-    constructor(_id, userId, title, description, startTime, endTime){
-        this._id = _id,
+    constructor(mongoId, userId, title, description, startTime, endTime){
+        this.mongoId = mongoId,
         this.userId = userId,
         this.title = title,
         this.description = description,

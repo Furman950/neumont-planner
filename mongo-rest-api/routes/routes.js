@@ -1,5 +1,4 @@
 const express = require('express')
-const ObjectId = require('mongodb').ObjectID
 const https = require('https')
 
 const CustomEvent = require('../models/CustomEvent')
@@ -31,15 +30,6 @@ function authenticateWithLMS(auth, callback) {
             }
         })
     })
-}
-
-function getId(id) {
-    try {
-        return new ObjectId(id)
-    }
-    catch (err) {
-        return undefined;
-    }
 }
 
 router.get('/events/all', (req, res, next) => {
@@ -79,7 +69,7 @@ router.get('/events/all', (req, res, next) => {
     console.log("----- END -----")
 });
 
-router.delete('/events/delete/:id', (req, res, next) => {
+router.delete('/events/delete/:mongoId', (req, res, next) => {
     console.log("----- in /events/delete -------")
     var callback = (statusCode, id) => {
         if (statusCode == 401) {
@@ -92,15 +82,8 @@ router.delete('/events/delete/:id', (req, res, next) => {
             return;
         }
 
-        let mongoId = getId(req.params.id)
-
-        if (mongoId == undefined) {
-            res.status(400).send({ 'error': 'Invalid Id format' })
-            return;
-        }
-
         req.app.locals.db.collection(collectionName)
-            .deleteOne({ "_id": mongoId },
+            .deleteOne({ "mongoId": req.params.mongoId },
                 (err, result) => {
                     if (err) {
                         res.status(400).send({ 'error': err })
@@ -122,7 +105,7 @@ router.delete('/events/delete/:id', (req, res, next) => {
     console.log("------ END ------")
 })
 
-router.patch('/events/edit/:id', (req, res, next) => {
+router.patch('/events/edit/:mongoId', (req, res, next) => {
     console.log("------- in /events/edit -----")
     var callback = (statusCode, id) => {
         if (statusCode == 401) {
@@ -135,20 +118,14 @@ router.patch('/events/edit/:id', (req, res, next) => {
             return;
         }
 
-        let mongoId = getId(req.params.id)
-
-        if (mongoId == undefined) {
-            res.status(400).send({ 'error': 'Invalid Id format' })
-            return;
-        }
 
         req.app.locals.db.collection(collectionName).updateOne({
-            "_id": mongoId
+            "mongoId": req.params.mongoId
         },
             {
                 $set:
                 {
-                    id: req.body.id,
+                    mongoId: req.body.mongoId,
                     userId: req.body.userId,
                     title: req.body.title,
                     description: req.body.description,
@@ -187,7 +164,7 @@ router.post('/events/new', (req, res, next) => {
         }
 
         const customEvent = new CustomEvent(
-            req.body.id,
+            req.body.mongoId,
             id,
             req.body.title,
             req.body.description,
@@ -215,8 +192,8 @@ router.post('/events/new', (req, res, next) => {
     console.log("------ END ----------")
 })
 
-router.get('/events/:id', (req, res, next) => {
-    console.log("--------in /event/:id ----------")
+router.get('/events/:mongoId', (req, res, next) => {
+    console.log("--------in /event/:mongoId ----------")
     var callback = (statusCode, id) => {
         if (statusCode == 401) {
             res.status(401).send({ 'error': 'Not Authorized' })
@@ -228,21 +205,14 @@ router.get('/events/:id', (req, res, next) => {
             return;
         }
 
-        let mongoId = getId(req.params.id)
-
-        if (mongoId == undefined) {
-            res.status(400).send({ 'error': 'Invalid Id format' })
-            return;
-        }
-
         req.app.locals.db.collection(collectionName).findOne({
-            "_id": mongoId
+            "mongoId": req.params.mongoId
         }, (err, result) => {
             if (err) {
                 res.status(400).send({ 'error': err })
             }
             if (result === undefined) {
-                res.status(400).send({ 'error': 'No document matching that id was found' })
+                res.status(400).send({ 'error': 'No document matching that mongoId was found' })
             } else {
                 console.log("sent status 200")
                 res.status(200).send(result)
