@@ -44,7 +44,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //FlutterLocalNotificationsPlugin _localNotification
+
+  FlutterLocalNotificationsPlugin _localNotification;
+  Timer _timer;
+  int _assignmentCount;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchAssignments();
+    _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
+    _localNotification = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSettings = new InitializationSettings(android, iOS);
+    _localNotification.initialize(initSettings);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   View _currentViewType = View.MONTH;
   DateTime _today = DateTime.now();
   DateTime _selectedDate = DateTime.now();
@@ -52,17 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Course> _courses = [];
   List<CustomEvent> _events = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchAssignments();
-
-    // _localNotification = new FlutterLocalNotificationsPlugin();
-    // var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var iOS = new IOSInitializationSettings();
-    // var initSettings = new InitializationSettings(android, iOS);
-    // _localNotification.initialize(initSettings);
-  }
 
   void _fetchAssignments() {
     List<Assignment> tempAssignments = new List<Assignment>();
@@ -125,6 +137,19 @@ class _MyHomePageState extends State<MyHomePage> {
       //   var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
       //   _events.add(event);
       // }
+      Random r = new Random();
+      for (int i = 0; i < 55; i++) {
+        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,30, r.nextInt(24),r.nextInt(60));
+        var assignment = new Assignment(id: i, name: "Assignment ${i.toString()}" , description: "Eh you could probably skip this", pp: 25, dueAt: rDate, hasSubmitted: false);
+        _assignments.add(assignment);
+      }
+      for (var i = 0; i < 94; i++) {
+        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
+        var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
+        _events.add(event);
+      }
+
+      _assignmentCount = _assignments.length;
     });
   }
 
@@ -143,18 +168,21 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => showNotification(),
-      //   tooltip: 'Show New Notification',
-      //   child: Icon(Icons.add),
-      // ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () => null,
+        tooltip: 'Show New Notification',
+        child: Icon(Icons.add),
+      ),
     );
   }
 
-  // Future showNotification() async {
-  //   var android = AndroidNotificationDetails('id', 'name', 'description');
-  //   var iOS = IOSNotificationDetails();
-  //   var platform = NotificationDetails(android, iOS);
-  //   await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
-  // }
+  Future showNotification() async {
+    var android = AndroidNotificationDetails('id', 'name', 'description');
+    var iOS = IOSNotificationDetails();
+    var platform = NotificationDetails(android, iOS);
+
+    if (_assignmentCount < _assignmentCount + 1 ) { //someValueHere) {
+      await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
+    }
+  }
 }
