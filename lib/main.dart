@@ -48,11 +48,16 @@ class _MyHomePageState extends State<MyHomePage> {
   FlutterLocalNotificationsPlugin _localNotification;
   Timer _timer;
   int _assignmentCount;
+  View _currentViewType = View.MONTH;
+  DateTime _today = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+  List<Assignment> _assignments = [];
+  List<Course> _courses = [];
+  List<CustomEvent> _events = [];
 
   @override
   void initState() {
     super.initState();
-
     _fetchAssignments();
     _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
     _localNotification = new FlutterLocalNotificationsPlugin();
@@ -68,28 +73,26 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  View _currentViewType = View.MONTH;
-  DateTime _today = DateTime.now();
-  DateTime _selectedDate = DateTime.now();
-  List<Assignment> _assignments = [];
-  List<Course> _courses = [];
-  List<CustomEvent> _events = [];
-
-
   void _fetchAssignments() {
-    List<Assignment> tempAssignments = new List<Assignment>();
     print("Fetching assignments");
     var assignmentFuture = canvasService.getAssignments(null, null,
         "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
     assignmentFuture.then((list) => {
       print("Settings list: " + list.length.toString()),
-    
         list.forEach((a) => _assignments.add(a))
-      
     });
+    _assignmentCount = _assignments.length;
   }
 
-  
+  int _fetchAssignmentsCount() {
+    int output = 0;
+    var assignmentList = canvasService.getAssignments(null, null,
+        "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
+    assignmentList.then((list) => {
+      output = list.length,
+    });    
+    return output;
+  }
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
@@ -111,9 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void changeView(View view, DateTime newDate) {
-    _assignments.clear();
-    _courses.clear();
-    _events.clear();
+    //_assignments.clear();
+    //_courses.clear();
+    //_events.clear();
     setState(() {
       _currentViewType = view;
       _selectedDate = newDate;
@@ -137,19 +140,17 @@ class _MyHomePageState extends State<MyHomePage> {
       //   var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
       //   _events.add(event);
       // }
-      Random r = new Random();
-      for (int i = 0; i < 55; i++) {
-        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,30, r.nextInt(24),r.nextInt(60));
-        var assignment = new Assignment(id: i, name: "Assignment ${i.toString()}" , description: "Eh you could probably skip this", pp: 25, dueAt: rDate, hasSubmitted: false);
-        _assignments.add(assignment);
-      }
-      for (var i = 0; i < 94; i++) {
-        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
-        var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
-        _events.add(event);
-      }
-
-      _assignmentCount = _assignments.length;
+      // Random r = new Random();
+      // for (int i = 0; i < 55; i++) {
+      //   var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,30, r.nextInt(24),r.nextInt(60));
+      //   var assignment = new Assignment(id: i, name: "Assignment ${i.toString()}" , description: "Eh you could probably skip this", pp: 25, dueAt: rDate, hasSubmitted: false);
+      //   _assignments.add(assignment);
+      // }
+      // for (var i = 0; i < 94; i++) {
+      //   var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
+      //   var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
+      //   _events.add(event);
+      // }
     });
   }
 
@@ -180,8 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var android = AndroidNotificationDetails('id', 'name', 'description');
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
-
-    if (_assignmentCount < _assignmentCount + 1 ) { //someValueHere) {
+    if (_assignmentCount < _fetchAssignmentsCount()) {
       await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
     }
   }
