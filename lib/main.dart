@@ -41,18 +41,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //FlutterLocalNotificationsPlugin _localNotification;
+  FlutterLocalNotificationsPlugin _localNotification;
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  //   _localNotification = new FlutterLocalNotificationsPlugin();
-  //   var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var iOS = new IOSInitializationSettings();
-  //   var initSettings = new InitializationSettings(android, iOS);
-  //   _localNotification.initialize(initSettings);
-  // }
+    _localNotification = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSettings = new InitializationSettings(android, iOS);
+    _localNotification.initialize(initSettings);
+  }
 
   View _currentViewType = View.MONTH;
   DateTime _today = DateTime.now();
@@ -112,18 +112,18 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => showNotification(),
-      //   tooltip: 'Show New Notification',
-      //   child: Icon(Icons.add),
-      // ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () => showNotification(),
+        tooltip: 'Show New Notification',
+        child: Icon(Icons.add),
+      ),
     );
   }
 
-  // Future showNotification() async {
-  //   var android = AndroidNotificationDetails('id', 'name', 'description');
-  //   var iOS = IOSNotificationDetails();
-  //   var platform = NotificationDetails(android, iOS);
-  //   await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
-  // }
+  Future showNotification() async {
+    var android = AndroidNotificationDetails('id', 'name', 'description');
+    var iOS = IOSNotificationDetails();
+    var platform = NotificationDetails(android, iOS);
+    await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
+  }
 }
