@@ -14,6 +14,7 @@ abstract class AbstractView extends StatelessWidget {
   final List<CustomEvent> events; 
   final void Function(View,DateTime) changeView;
   final DateTime selectedDate;
+  
   List<GuiObject>  getMasterList(){
     List<GuiObject> list = [];
     list.addAll(assignments);

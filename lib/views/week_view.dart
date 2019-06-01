@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:neumont_planner/helper/dateTimeFilter.dart';
-import 'package:neumont_planner/helper/week_date_helper.dart';
+import 'package:neumont_planner/models/cards/assignment_card.dart';
+import 'package:neumont_planner/models/cards/course_card.dart';
+import 'package:neumont_planner/models/cards/custom_event_card.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
+import 'package:neumont_planner/models/objects/objects.dart';
 import 'package:neumont_planner/views/summary_view.dart';
 
 import '../main.dart';
@@ -17,6 +20,9 @@ class WeekView extends AbstractView {
 
   @override
   Widget build(BuildContext context) {
+
+    print(assignments.length);
+
     List<String> dateStrings = [];
     List<DateTime> dates = [];
 
@@ -39,7 +45,18 @@ class WeekView extends AbstractView {
           Container(
             height: 370,
              child:ListView(
-              children:  buildCards(dateStrings, dates,assignments, events))
+              children:  dateStrings.map((stringOfDate) =>
+                Card(
+                  child: Column(
+                    children: <Widget>[
+                      Text(stringOfDate),
+                      Text(getAssignmentString(getObjectsByWeek(selectedDate,getSortedAssignments()))),
+                      Text(getEventString(getObjectsByWeek(selectedDate,getSortedEvents()))),
+                      Text(getCourseString(getObjectsByWeek(selectedDate, getSortedCourses()))),
+                    ],
+                  ),
+                )
+              ).toList())
             ),
             Text("Summary"),
             SummaryView(getObjectsByWeek(selectedDate, getMasterList()))
@@ -65,26 +82,67 @@ class WeekView extends AbstractView {
       ),
     );
   }
-}
 
-enum _WeekDay {
-  MONDAY,
-  TUESDAY,
-  WEDNESDAY,
-  THURESDAY,
-  FRIDAY,
-  SATURDAY,
-  SUNDAY
-}
+  String getAssignmentString(List<GuiObject> assignments) {
+    String toReturn = "";
+    if (assignments.length > 4) {
+      toReturn += "${assignments.length} assignments\n";
+    }else if(assignments.length <= 0){
+      toReturn += "No Assignments Due";
+    }  else {
+      List<AssignmentCard> list = assignments.map((a) => 
+        new AssignmentCard(a, false, true, true, false, false,false, false, true, true, false)
+      ).toList();
 
-List<Container> buildCards(List<String> dateStrings, List<DateTime> dates , List<Assignment> assignments, List<CustomEvent> events) {
-  List<Container> toReturn = new List<Container>();
-  for (String item in dateStrings) {
-    toReturn.add(new Container(
-        child: Card(
-          child: Column(
-            children: <Widget>[WeekDateHelper(assignments, events, item),]),
-    )));
+      for (AssignmentCard item in list) {
+        toReturn += "${item.toString()}\n";
+      }
+    }
+    return toReturn;
   }
-  return toReturn;
+
+  String getEventString(List<GuiObject> events) {
+    String toReturn = "";
+    if (events.length > 4) {
+      toReturn += "${events.length} events\n";
+    } else if(courses.length <= 0){
+      toReturn += "No Events";
+    }else{  
+      List<CustomEventCard> list = events.map((a) => 
+        new CustomEventCard()
+      ).toList();
+
+      for (var item in list) {
+        toReturn += "${item.toString()}\n";
+      }
+    }
+    return toReturn;
+  }
+
+    String getCourseString(List<GuiObject> courses) {
+    String toReturn = "";
+    if (courses.length > 4) {
+      toReturn += "${courses.length} classes\n";
+    }else if(courses.length <= 0){
+      toReturn += "No Courses";
+    } else {
+      List<CourseCard> list = courses.map((a) => 
+        new CourseCard(a, false, false, false, true, true, false, true)
+      ).toList();
+
+      for (var item in list) {
+        toReturn += "${item.toString()}\n";
+      }
+    }
+    return toReturn;
+    }
+}
+enum _WeekDay {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURESDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
 }
