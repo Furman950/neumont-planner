@@ -18,12 +18,11 @@ class CanvasAPI implements CanvasService {
     for (final course in listOfCourses) {
       if (course.id == FRESHMEN_ORIENTATION_COURSE)
         continue;
-      print(course.id);
+      print(course.title);
       final response = await http.get(
           _baseEndPoint + "courses/" + course.id.toString() + "/assignments",
           headers: {HttpHeaders.authorizationHeader: "Bearer " + userId});
       var tempAssignmentList = assignmentsFromJson(response.body);
-
       assignmentList.addAll(tempAssignmentList);
     }
 
