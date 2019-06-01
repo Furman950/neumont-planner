@@ -20,6 +20,7 @@ class MonthView extends AbstractView {
     DateTime firstDayOfMonth = new DateTime(today.year, today.month, 1);
     int offset = 0;
 
+print("Assignemnt length: " + assignments.length.toString());
     if(monthView.isEmpty){
       switch(firstDayOfMonth.weekday) {
         case DateTime.sunday:
