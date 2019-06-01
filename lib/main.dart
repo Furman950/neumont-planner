@@ -42,16 +42,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   FlutterLocalNotificationsPlugin _localNotification;
+  Timer _timer;
+  int _assignmentCount;
 
   @override
   void initState() {
     super.initState();
 
+    _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
     _localNotification = new FlutterLocalNotificationsPlugin();
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);
     _localNotification.initialize(initSettings);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   View _currentViewType = View.MONTH;
@@ -94,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
         var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
         _events.add(event);
       }
+
+      _assignmentCount = _assignments.length;
     });
   }
 
@@ -113,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
         floatingActionButton: FloatingActionButton(
-        onPressed: () => showNotification(),
+        onPressed: () => null,
         tooltip: 'Show New Notification',
         child: Icon(Icons.add),
       ),
@@ -124,6 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var android = AndroidNotificationDetails('id', 'name', 'description');
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
-    await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
+
+    if (_assignmentCount < _assignmentCount + 1 ) { //someValueHere) {
+      await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
+    }
   }
 }
