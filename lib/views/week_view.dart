@@ -43,15 +43,7 @@ class WeekView extends AbstractView {
               children:  dates.map((date) =>
                 Card(
                   child: Column(
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text(getButtonDate(date)),
-                        onPressed: () => changeView(View.DAY, date) ,
-                      ),
-                      Text(getAssignmentString(getObjectsByWeek(selectedDate,getSortedAssignments()))),
-                      Text(getEventString(getObjectsByWeek(selectedDate,getSortedEvents()))),
-                      Text(getCourseString(getObjectsByWeek(selectedDate, getSortedCourses()))),
-                    ],
+                    children: buildWidgetsForWeek(date),
                   ),
                 )
               ).toList())
@@ -59,9 +51,6 @@ class WeekView extends AbstractView {
             Text("Summary"),
             SummaryView(getObjectsByWeek(selectedDate, getMasterList()))
         ],),
-        onTap: () {
-          changeView(View.DAY, selectedDate);
-        },
         onPanStart: (DragStartDetails details) {
           start = details.globalPosition.dx;
         },
@@ -85,59 +74,66 @@ class WeekView extends AbstractView {
     return "${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}";
   }
 
-  String getAssignmentString(List<GuiObject> assignments) {
-    String toReturn = "";
+  List <Widget> buildAssignmentCards(List<GuiObject> assignments) {
+    List <Widget> toReturn= [];
     if (assignments.length > 4) {
-      toReturn += "${assignments.length} assignments\n";
+      toReturn.add(Text("${assignments.length} Due"));
     }else if(assignments.length <= 0){
-      toReturn += "No Assignments Due";
+     toReturn.add(Text("No Assignments Due"));
     }  else {
-      List<AssignmentCard> list = assignments.map((a) => 
-        new AssignmentCard(a, false, true, true, false, false,false, false, true, true, false)
-      ).toList();
-
-      for (AssignmentCard item in list) {
-        toReturn += "${item.toString()}\n";
-      }
+       assignments.forEach((a) =>{
+        toReturn.add( new AssignmentCard(a, false, true, true, false, false,false, false, true, true, false))
+       });
     }
     return toReturn;
   }
 
-  String getEventString(List<GuiObject> events) {
-    String toReturn = "";
+  List <Widget>  buildEventCards(List<GuiObject> events) {
+    List <Widget> toReturn= [];
     if (events.length > 4) {
-      toReturn += "${events.length} events\n";
+      toReturn.add(Text("${events.length} events"));
     } else if(courses.length <= 0){
-      toReturn += "No Events";
+      toReturn.add(Text("No Events"));
     }else{  
-      List<CustomEventCard> list = events.map((a) => 
-        new CustomEventCard()
-      ).toList();
-
-      for (var item in list) {
-        toReturn += "${item.toString()}\n";
-      }
+      events.forEach((a) => 
+        toReturn.add(new CustomEventCard())
+      );
     }
     return toReturn;
   }
 
-    String getCourseString(List<GuiObject> courses) {
-    String toReturn = "";
+    List <Widget>  buildCourseCards(List<GuiObject> courses) {
+    List <Widget> toReturn= [];
     if (courses.length > 4) {
-      toReturn += "${courses.length} classes\n";
+      toReturn.add(Text( "${courses.length} classes"));
     }else if(courses.length <= 0){
-      toReturn += "No Courses";
+     toReturn.add(Text("No Courses"));
     } else {
-      List<CourseCard> list = courses.map((a) => 
-        new CourseCard(a, false, false, true, true, true, false, true)
-      ).toList();
-
-      for (var item in list) {
-        toReturn += "${item.toString()}\n";
-      }
+      courses.forEach((a) => 
+        toReturn.add(new CourseCard(a, false, false, true, true, true, false, true))
+      );
     }
     return toReturn;
     }
+
+  buildWidgetsForWeek(DateTime date) {
+    List <Widget> toBeReturned = [];
+    toBeReturned.add(RaisedButton(
+      child: Text(getButtonDate(date)),
+      onPressed: () => changeView(View.DAY, date) ,
+    ));
+
+    buildAssignmentCards(getObjectsByDay(date,getSortedAssignments())).forEach((f)=>
+      toBeReturned.add(f)
+    );
+    buildEventCards(getObjectsByDay(date,getSortedEvents())).forEach((f)=>
+      toBeReturned.add(f)
+    );
+    buildCourseCards(getObjectsByDay(date, getSortedCourses())).forEach((f)=>
+      toBeReturned.add(f)
+    );
+    return toBeReturned;
+  }
 }
 enum _WeekDay {
     MONDAY,

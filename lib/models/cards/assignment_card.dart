@@ -41,7 +41,8 @@ class AssignmentCard extends StatelessWidget {
     }
 
     if(_showDescription){
-      s += "${_assignment.description} ";
+      String description = _assignment.description.length <= 100? _assignment.description: _assignment.description.substring(0,100);
+      s += "$description ";
     }
 
     if(_showPP){
@@ -49,11 +50,11 @@ class AssignmentCard extends StatelessWidget {
     }
 
     if(_showAllowedAttempts){
-      s += "${_assignment.allowedAttempts} attempts";
+      s += "${_assignment.allowedAttempts} attempts ";
     }
 
     if(_showHasSubmitted){
-      s += _assignment.hasSubmitted? "Submitted": "Not Submitted";
+      s += _assignment.hasSubmitted? "Submitted ": "Not Submitted ";
     }
 
     if(_showIsQuizAssignment){
@@ -64,7 +65,7 @@ class AssignmentCard extends StatelessWidget {
       var day = _assignment.dueAt.day;
       var month = _assignment.dueAt.month;
 
-      s += " $month/$day @ ${getHourAndMinuteByTime(_assignment.dueAt)}";
+      s += "Due: $month/$day @ ${getHourAndMinuteByTime(_assignment.dueAt)}";
     }
 
     if(_showGradingType){

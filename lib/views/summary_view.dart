@@ -13,7 +13,7 @@ class SummaryView extends StatelessWidget {
         child: ListView(
           children: all.map((obj) => Padding(
             padding: EdgeInsets.fromLTRB(0, 2, 0, 5),
-            child: Text("${obj.title}: ${obj.description}"),
+            child: Text("${obj.title}: ${obj.description.length<= 100?obj.description:obj.description.substring(0,100)}"),
           )).toList()
         ),
       )
