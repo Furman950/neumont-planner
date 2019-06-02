@@ -46,14 +46,10 @@ List<GuiObject> getObjectsByMonth(DateTime filter, List<GuiObject> objs){
 
   List<GuiObject> toBeReturned = [];
 
-  // objs.forEach((x) => {
-  //   if(x.sortDateTime.month == filter.month && x.sortDateTime.year == filter.year){
-  //     toBeReturned.add(x)
-  //   }
-  // });
-
   objs.forEach((x) => {
-    toBeReturned.add(x)
+    if(x.sortDateTime.month == filter.month && x.sortDateTime.year == filter.year){
+      toBeReturned.add(x)
+    }
   });
 
   return toBeReturned;

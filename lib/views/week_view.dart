@@ -20,10 +20,6 @@ class WeekView extends AbstractView {
 
   @override
   Widget build(BuildContext context) {
-
-    print(assignments.length);
-
-    List<String> dateStrings = [];
     List<DateTime> dates = [];
 
     DateTime _firstOfWeek =selectedDate.subtract(new Duration(days: selectedDate.weekday));
@@ -33,7 +29,6 @@ class WeekView extends AbstractView {
     for (var i = 0; i < 7; i++) {
       DateTime temp = fromFirstOfWeek.add(new Duration(days: i));
       dates.add(temp);
-      dateStrings.add("${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}");
     }
 
     double start = 0;
@@ -45,11 +40,14 @@ class WeekView extends AbstractView {
           Container(
             height: 370,
              child:ListView(
-              children:  dateStrings.map((stringOfDate) =>
+              children:  dates.map((date) =>
                 Card(
                   child: Column(
                     children: <Widget>[
-                      Text(stringOfDate),
+                      RaisedButton(
+                        child: Text(getButtonDate(date)),
+                        onPressed: () => changeView(View.DAY, date) ,
+                      ),
                       Text(getAssignmentString(getObjectsByWeek(selectedDate,getSortedAssignments()))),
                       Text(getEventString(getObjectsByWeek(selectedDate,getSortedEvents()))),
                       Text(getCourseString(getObjectsByWeek(selectedDate, getSortedCourses()))),
@@ -81,6 +79,10 @@ class WeekView extends AbstractView {
         },
       ),
     );
+  }
+
+  String getButtonDate(DateTime temp){
+    return "${describeEnum(_WeekDay.values[temp.weekday - 1])}, ${temp.month}/${temp.day}";
   }
 
   String getAssignmentString(List<GuiObject> assignments) {
@@ -127,7 +129,7 @@ class WeekView extends AbstractView {
       toReturn += "No Courses";
     } else {
       List<CourseCard> list = courses.map((a) => 
-        new CourseCard(a, false, false, false, true, true, false, true)
+        new CourseCard(a, false, false, true, true, true, false, true)
       ).toList();
 
       for (var item in list) {

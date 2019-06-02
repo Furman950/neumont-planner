@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -77,7 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   void _fetchAssignments() {
-    List<Assignment> tempAssignments = new List<Assignment>();
     print("Fetching assignments");
     var assignmentFuture = canvasService.getAssignments(null, null,
         "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
@@ -88,8 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
       
     });
   }
-
-  
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
@@ -102,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
       return WeekView(
           _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
-      print("Selected datea: " + _selectedDate.toString());
       return MonthView(
           _assignments, _courses, _events, changeView, _selectedDate);
     } else {
@@ -111,44 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void changeView(View view, DateTime newDate) {
-    _assignments.clear();
-    _courses.clear();
-    _events.clear();
     setState(() {
       _currentViewType = view;
       _selectedDate = newDate;
-      //simulates Assignment api call;
-
-      // Random r = new Random();
-      // for (int i = 0; i < 55; i++) {
-      //   var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,
-      //       30, r.nextInt(24), r.nextInt(60));
-      //   var assignment = new Assignment(
-      //       id: i,
-      //       name: "Assignment ${i.toString()}",
-      //       description: "Eh you could probably skip this",
-      //       pp: 25,
-      //       dueAt: rDate,
-      //       hasSubmitted: false);
-      //   _assignments.add(assignment);
-      // }
-      // for (var i = 0; i < 94; i++) {
-      //   var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
-      //   var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
-      //   _events.add(event);
-      // }
-      Random r = new Random();
-      for (int i = 0; i < 55; i++) {
-        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,30, r.nextInt(24),r.nextInt(60));
-        var assignment = new Assignment(id: i, name: "Assignment ${i.toString()}" , description: "Eh you could probably skip this", pp: 25, dueAt: rDate, hasSubmitted: false);
-        _assignments.add(assignment);
-      }
-      for (var i = 0; i < 94; i++) {
-        var rDate = new DateTime.utc(DateTime.now().year, DateTime.now().month,r.nextInt(30)+1, r.nextInt(24),r.nextInt(60));
-        var event = new CustomEvent(mongoId: i.toString(),title: "Event $i", description: "Sicc Event",userId: 1,startTime: rDate,endTime: rDate.add(Duration(hours: 1)));
-        _events.add(event);
-      }
-
       _assignmentCount = _assignments.length;
     });
   }
