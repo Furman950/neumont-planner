@@ -47,11 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
   FlutterLocalNotificationsPlugin _localNotification;
   Timer _timer;
   int _assignmentCount;
+  View _currentViewType = View.MONTH;
+  DateTime _today = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+  List<Assignment> _assignments = [];
+  List<Course> _courses = [];
+  List<CustomEvent> _events = [];
 
   @override
   void initState() {
     super.initState();
-
     _fetchAssignments();
     _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
     _localNotification = new FlutterLocalNotificationsPlugin();
@@ -67,24 +72,25 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  View _currentViewType = View.MONTH;
-  DateTime _today = DateTime.now();
-  DateTime _selectedDate = DateTime.now();
-  List<Assignment> _assignments = [];
-  List<Course> _courses = [];
-  List<CustomEvent> _events = [];
-
-
   void _fetchAssignments() {
     print("Fetching assignments");
     var assignmentFuture = canvasService.getAssignments(null, null,
         "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
     assignmentFuture.then((list) => {
       print("Settings list: " + list.length.toString()),
-    
         list.forEach((a) => _assignments.add(a))
-      
     });
+    _assignmentCount = _assignments.length;
+  }
+
+  int _fetchAssignmentsCount() {
+    int output = 0;
+    var assignmentList = canvasService.getAssignments(null, null,
+        "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
+    assignmentList.then((list) => {
+      output = list.length,
+    });    
+    return output;
   }
 
   Widget getView(View view, Function(View, DateTime) changeView) {
@@ -140,8 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var android = AndroidNotificationDetails('id', 'name', 'description');
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
-
-    if (_assignmentCount < _assignmentCount + 1 ) { //someValueHere) {
+    if (_assignmentCount < _fetchAssignmentsCount()) {
       await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
     }
   }
