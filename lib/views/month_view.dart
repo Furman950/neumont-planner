@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' as prefix0;
+import 'package:neumont_planner/helper/change_date_helper.dart';
 import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
@@ -15,12 +17,14 @@ class MonthView extends AbstractView {
 
   @override
   Widget build(BuildContext context) {
-  List<Container> monthView = [];
-    DateTime today = DateTime.now();
-    DateTime firstDayOfMonth = new DateTime(today.year, today.month, 1);
+
+    double start = 0;
+    double update = 0;
+
+    List<Container> monthView = [];
+    DateTime firstDayOfMonth = new DateTime(selectedDate.year, selectedDate.month, 1);
     int offset = 0;
 
-print("Assignemnt length: " + assignments.length.toString());
     if(monthView.isEmpty){
       switch(firstDayOfMonth.weekday) {
         case DateTime.sunday:
@@ -48,22 +52,15 @@ print("Assignemnt length: " + assignments.length.toString());
     }
 
     for (int i = offset; monthView.length < 42; i++) {
-      DateTime day = new DateTime(today.year, today.month, i);
-      Color color = Colors.grey;
+      DateTime day = new DateTime(selectedDate.year, selectedDate.month, i);
+      Color color = Colors.grey.withOpacity(0);
 
-      if (day.month == today.month){
-        color = Colors.yellow;
-      }
-      else {
-        color = Colors.grey;
+      if (day.month == selectedDate.month){
+        color = Colors.yellow.withOpacity(1);
       }
 
-      if (day.weekday == DateTime.saturday && day.month == today.month || day.weekday == DateTime.sunday && day.month == today.month) {
-        color = Colors.red;
-      }
-
-      if (day.day == today.day && day.month == today.month && day.year == today.year){
-        color = Colors.orange;
+      if (day.day == DateTime.now().day && day.month == DateTime.now().month &&  day.year== DateTime.now().year){
+        color = Colors.orange.withOpacity(1);
       }
 
       monthView.add(
@@ -80,38 +77,53 @@ print("Assignemnt length: " + assignments.length.toString());
     }
 
     return Expanded(
-      child: new Column(
-        children: <Widget> [
-          new Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Text('Sun.'),
-              new Text('        Mon.'),
-              new Text('      Tues.'),
-              new Text('       Wed.'),
-              new Text('      Thur.'),
-              new Text('         Fri.'),
-              new Text('          Sat.'),
-            ],
-          ),
-          new Container(
-            width: 700,
-            height: 355,
-            child: GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 7,
-              childAspectRatio: 1.0,
-              padding: const EdgeInsets.fromLTRB(10,10,10,0),
-              mainAxisSpacing: 5.0,
-              crossAxisSpacing: 5.0,
-              children: monthView,
+      child: GestureDetector(
+        child: new Column(
+          children: <Widget> [
+            new Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text('Sun.'),
+                new Text('        Mon.'),
+                new Text('      Tues.'),
+                new Text('       Wed.'),
+                new Text('      Thur.'),
+                new Text('         Fri.'),
+                new Text('          Sat.'),
+              ],
             ),
-          ),
-          Text("Summary"),
-          SummaryView(getObjectsByMonth(selectedDate, getMasterList()))
-        ]
-      )
+            new Container(
+              width: 700,
+              height: 355,
+              child: GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 7,
+                childAspectRatio: 1.0,
+                padding: const EdgeInsets.fromLTRB(10,10,10,0),
+                mainAxisSpacing: 5.0,
+                crossAxisSpacing: 5.0,
+                children: monthView,
+              ),
+            ),
+            Text("Summary"),
+            SummaryView(getObjectsByMonth(selectedDate, getMasterList()))
+          ]
+        ),
+        onPanStart: (DragStartDetails details) {
+          start = details.globalPosition.dx;
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          update = details.globalPosition.dx - start;
+        },
+        onPanEnd: (DragEndDetails details) {
+          if (update >  start) {
+            changeView(View.MONTH, ChangeMonth().change(selectedDate, -1));
+          } else {
+            changeView(View.MONTH, ChangeMonth().change(selectedDate, 1));
+          }
+        },
+      ),
     );
   }
 }

@@ -58,7 +58,7 @@ class WeekView extends AbstractView {
           update = details.globalPosition.dx - start;
         },
         onPanEnd: (DragEndDetails details) {
-          if (update - start > 0) {
+          if (update >  start) {
             DateTime toPass = selectedDate.subtract(new Duration(days: 7));
             changeView(View.WEEK, toPass);
           } else {

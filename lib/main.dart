@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:neumont_planner/helper/change_date_helper.dart';
 
 import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/service/abstractServices/canvas_service.dart';
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   FlutterLocalNotificationsPlugin _localNotification;
   Timer _timer;
+  TimeChanger _changer;
   int _assignmentCount;
   View _currentViewType = View.MONTH;
   DateTime _today = DateTime.now();
@@ -75,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _fetchAssignments() {
     print("Fetching assignments");
     var assignmentFuture = canvasService.getAssignments(null, null,
-        "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
+        "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
     assignmentFuture.then((list) => {
       print("Settings list: " + list.length.toString()),
         list.forEach((a) => _assignments.add(a))
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _fetchAssignmentsCount() {
     int output = 0;
     var assignmentList = canvasService.getAssignments(null, null,
-        "1~WS9hfD2EzLPp7ULFQRFdprbo8GpYCbwuqtLh9oqXifrvb23wg8vWzuqWpT091bzM");
+        "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
     assignmentList.then((list) => {
       output = list.length,
     });    
@@ -95,17 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
-      return HourView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return HourView(_assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.DAY) {
-      return DayView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return DayView(_assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.WEEK) {
-      return WeekView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return WeekView(_assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
-      return MonthView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return MonthView(_assignments, _courses, _events, changeView, _selectedDate);
     } else {
       return Text('Yikes');
     }
@@ -113,6 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeView(View view, DateTime newDate) {
     setState(() {
+      if(view == View.DAY){
+        _changer = ChangeDay();
+      }else if(view == View.MONTH){
+        _changer = ChangeMonth();
+      }else{
+        _changer = ChangeWeek();
+      }
       _currentViewType = view;
       _selectedDate = newDate;
       _assignmentCount = _assignments.length;
@@ -129,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            ViewManager(changeView, _selectedDate, _currentViewType),
+            ViewManager(changeView, _selectedDate, _currentViewType,_changer),
             getView(_currentViewType, changeView),
           ],
         ),

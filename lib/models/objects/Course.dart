@@ -33,7 +33,7 @@ class Course extends GuiObject{
         startAt: DateTime.parse(json["start_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         courseCode: json["course_code"],
-        endAt: json["end_at"] == null ? DateTime.now() : DateTime.parse(json["end_at"])
+        endAt: json["end_at"] == null ? DateTime.now().toLocal() : DateTime.parse(json["end_at"]).toLocal()
     );
 
     Map<String, dynamic> toJson() => {

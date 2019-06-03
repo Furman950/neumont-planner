@@ -35,8 +35,8 @@ class CustomEvent extends GuiObject {
         title: json["title"],
         description: json["description"],
         userId: json["id"],
-        startTime: json["startTime"] == null ? null : DateTime.parse(json["startTime"]),
-        endTime: json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
+        startTime: json["startTime"] == null ? null : DateTime.parse(json["startTime"]).toLocal(),
+        endTime: json["endTime"] == null ? null : DateTime.parse(json["endTime"]).toLocal(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:neumont_planner/helper/change_date_helper.dart';
 import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/models/cards/assignment_card.dart';
 import 'package:neumont_planner/models/cards/course_card.dart';
@@ -8,6 +10,7 @@ import 'package:neumont_planner/models/objects/assignment.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
+import '../main.dart';
 import 'abstract_view.dart';
 
 class DayView extends AbstractView{
@@ -16,29 +19,64 @@ class DayView extends AbstractView{
 
   @override
   Widget build(BuildContext context) {
+    double start = 0;
+    double update = 0;
     return Expanded(
-      child: ListView(
-        children: buildWidgetListForDay(getObjectsByDay(selectedDate, getMasterList())),
+      child: GestureDetector(
+        child: Container(child:buildWidgetForDay(getObjectsByDay(selectedDate, getMasterList())),color:  Colors.white,),
+        onPanStart: (DragStartDetails details) {
+          start = details.globalPosition.dx;
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          update = details.globalPosition.dx - start;
+        },
+        onPanEnd: (DragEndDetails details) {
+          if (update >  start) {
+            changeView(View.DAY, ChangeDay().change(selectedDate, 1));
+          } else {
+            changeView(View.DAY, ChangeDay().change(selectedDate, -1));
+          }
+        }
       )
     );
   }
 
-    List<Widget> buildWidgetListForDay(List<GuiObject> objs ){
-    List<Widget> toBeReturned = [];
-
-    if(objs.length == 0){
-       toBeReturned.add(Text("Nothing To Do"));
-    }
-
+  ListView buildListView(objs){
+    List<Widget> cardList = [];
     for (var obj in objs) {
       if(obj is Assignment){
-        toBeReturned.add(AssignmentCard(obj, false, true, true, true, false, false, false, true, true, false));
+        cardList.add(AssignmentCard(obj, false, true, true, true, false, false, false, true, true, false));
       }else if (obj is CustomEvent) {
-        toBeReturned.add(CustomEventCard());
+        cardList.add(CustomEventCard());
       }else if(obj is Course){
-        toBeReturned.add(CourseCard(obj, false, true, false, true, false, false, true));
+        cardList.add(CourseCard(obj, false, true, false, true, false, false, true));
       }
     }
-    return toBeReturned;
+
+    return ListView(
+      children: cardList,
+    );
+  }
+
+
+    Widget buildWidgetForDay(List<GuiObject> objs){
+
+    if(objs.length == 0){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.schedule),
+              Text("Nothing To Do"),
+          ],
+      )
+
+        ],
+       );
+    }else{
+      return buildListView(objs);
+    }
   }          
 }

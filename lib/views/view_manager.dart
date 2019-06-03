@@ -1,54 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/helper/change_date_helper.dart';
 import 'package:neumont_planner/main.dart';
 
 class ViewManager extends StatelessWidget {
+  final TimeChanger changer;
   final void Function(View, DateTime) changeView;
   final DateTime selectedDate;
   final View currentView;
 
-  ViewManager(this.changeView, this.selectedDate, this.currentView);
+  ViewManager(this.changeView,this.selectedDate,this.currentView,this.changer);
 
   Widget getText() {
     switch (currentView) {
       case View.DAY:
-        return Padding(
-          child: Text(
+          return Text(
               selectedDate.month.toString() +
                   "/" +
                   selectedDate.day.toString() +
                   "/" +
                   selectedDate.year.toString(),
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
         );
       case View.HOUR:
-        return Padding(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: Text(
+            return Text(
               selectedDate.month.toString() +
                   "/" +
                   selectedDate.day.toString() +
                   "/" +
                   selectedDate.year.toString(),
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ));
+            );
       case View.MONTH:
-        return Padding(
-          child: Text(
+            return Text(
             selectedDate.month.toString() + "/" + selectedDate.year.toString(),
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         );
       case View.WEEK:
         DateTime startOfWeek = selectedDate.subtract(new Duration(days: selectedDate.weekday));
         DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
-        return Padding(
-          child: Text(
+        return Text(
             "${startOfWeek.month}/${startOfWeek.day}/${startOfWeek.year} - ${endOfWeek.month}/${endOfWeek.day }/${endOfWeek.year}",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         );
       default:
         return Text("Yikes");
@@ -61,7 +53,11 @@ class ViewManager extends StatelessWidget {
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[getText()],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            IconButton(icon: Icon(Icons.navigate_before),onPressed: () => changeView(currentView, changer.change(selectedDate, -1))),
+            getText(),
+            IconButton(icon: Icon(Icons.navigate_next), onPressed: () => changeView(currentView, changer.change(selectedDate,  1)))],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

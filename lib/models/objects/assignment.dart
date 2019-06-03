@@ -36,7 +36,7 @@ class Assignment extends GuiObject {
   factory Assignment.fromJson(Map<String, dynamic> json) => new Assignment(
       id: json["id"],
       description: json["description"],
-      dueAt: json["due_at"] == null ? null : DateTime.parse(json["due_at"]),
+      dueAt: json["due_at"] == null ? null : DateTime.parse(json["due_at"]).toLocal(),
       pp: json["points_possible"],
       gradingType: json["grading_type"],
       allowedAttempts: json["allowed_attempts"],
