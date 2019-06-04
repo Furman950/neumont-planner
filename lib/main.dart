@@ -9,6 +9,7 @@ import 'package:neumont_planner/service/canvas_api.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/hour_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
+import 'package:neumont_planner/views/timeslot_view.dart';
 import 'package:neumont_planner/views/week_view.dart';
 
 import 'models/objects/Course.dart';
@@ -44,7 +45,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   FlutterLocalNotificationsPlugin _localNotification;
   Timer _timer;
   TimeChanger _changer;
@@ -60,7 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _fetchAssignments();
-    _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
+    _timer =
+        Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
     _localNotification = new FlutterLocalNotificationsPlugin();
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
@@ -79,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var assignmentFuture = canvasService.getAssignments(null, null,
         "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
     assignmentFuture.then((list) => {
-      print("Settings list: " + list.length.toString()),
-        list.forEach((a) => _assignments.add(a))
-    });
+          print("Settings list: " + list.length.toString()),
+          list.forEach((a) => _assignments.add(a))
+        });
     _assignmentCount = _assignments.length;
   }
 
@@ -90,20 +91,24 @@ class _MyHomePageState extends State<MyHomePage> {
     var assignmentList = canvasService.getAssignments(null, null,
         "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
     assignmentList.then((list) => {
-      output = list.length,
-    });    
+          output = list.length,
+        });
     return output;
   }
 
   Widget getView(View view, Function(View, DateTime) changeView) {
     if (view == View.DAY && _selectedDate.day == _today.day) {
-      return HourView(_assignments, _courses, _events, changeView, _selectedDate);
+      return HourView(
+          _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.DAY) {
-      return DayView(_assignments, _courses, _events, changeView, _selectedDate);
+      return DayView(
+          _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.WEEK) {
-      return WeekView(_assignments, _courses, _events, changeView, _selectedDate);
+      return WeekView(
+          _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
-      return MonthView(_assignments, _courses, _events, changeView, _selectedDate);
+      return MonthView(
+          _assignments, _courses, _events, changeView, _selectedDate);
     } else {
       return Text('Yikes');
     }
@@ -111,11 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void changeView(View view, DateTime newDate) {
     setState(() {
-      if(view == View.DAY){
+      if (view == View.DAY) {
         _changer = ChangeDay();
-      }else if(view == View.MONTH){
+      } else if (view == View.MONTH) {
         _changer = ChangeMonth();
-      }else{
+      } else {
         _changer = ChangeWeek();
       }
       _currentViewType = view;
@@ -134,13 +139,20 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: <Widget>[
-            ViewManager(changeView, _selectedDate, _currentViewType,_changer),
+            ViewManager(changeView, _selectedDate, _currentViewType, _changer),
             getView(_currentViewType, changeView),
           ],
         ),
       ),
-        floatingActionButton: FloatingActionButton(
-        onPressed: () => null,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+              _assignments
+                  .sort((x, y) => x.sortDateTime.compareTo(y.sortDateTime)),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new TimeSlotView(_assignments)))
+            },
         tooltip: 'Show New Notification',
         child: Icon(Icons.add),
       ),
@@ -152,7 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
     if (_assignmentCount < _fetchAssignmentsCount()) {
-      await _localNotification.show(0, 'New Assignment', 'Neumont Planner Notification', platform);
+      await _localNotification.show(
+          0, 'New Assignment', 'Neumont Planner Notification', platform);
     }
   }
 }
