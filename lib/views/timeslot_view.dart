@@ -106,23 +106,22 @@ class _ViewState extends State<TimeSlotView> {
   }
 
   void changeDropDownItem(Assignment currentSelection) {
-    print("$currentSelection");
-    for (var i = 0; i < 2; i++) {
-      _selectDate(context, currentSelection);
-      _selectTime(context);
-      if (i == 1) {
-        end = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _timeOfDay.hour, _timeOfDay.minute);
-      } else {
-        start = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-            _timeOfDay.hour, _timeOfDay.minute);
-      }
-    }
+    // print("$currentSelection");
+
+    _selectTime(context);
+    _selectDate(context, currentSelection);
+
+    start = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+        _timeOfDay.hour, _timeOfDay.minute);
+    end = start.add(new Duration(hours: 1));
+
     CustomEvent newEvent = new CustomEvent(
         description: currentSelection.description,
         title: currentSelection.title,
         startTime: start,
         endTime: end);
+    print("New Event StartTime: ${newEvent.startTime}");
+    print("New Event EndTime: ${newEvent.endTime}");
     api.createEvent(newEvent,
         "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
     setState(() {
