@@ -47,7 +47,7 @@ class DayView extends AbstractView{
       if(obj is Assignment){
         cardList.add(AssignmentCard(obj, false, true, true, true, false, false, false, true, true, false));
       }else if (obj is CustomEvent) {
-        cardList.add(CustomEventCard());
+        cardList.add(CustomEventCard(obj, true, true, true, false));
       }else if(obj is Course){
         cardList.add(CourseCard(obj, false, true, false, true, false, false, true));
       }

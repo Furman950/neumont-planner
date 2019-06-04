@@ -77,7 +77,7 @@ class HourView extends AbstractView {
       if(obj is Assignment){
         toBeReturned.add(AssignmentCard(obj, false, true, true, true, false, false, false, true, true, false));
       }else if (obj is CustomEvent) {
-        toBeReturned.add(CustomEventCard());
+        toBeReturned.add(CustomEventCard(obj,true,true,true,false));
       }else if(obj is Course){
         toBeReturned.add(CourseCard(obj, false, true, false, true, false, false, false));
       }

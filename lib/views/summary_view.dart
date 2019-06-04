@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neumont_planner/helper/dateTime_Strings.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
 class SummaryView extends StatelessWidget {
@@ -13,7 +14,7 @@ class SummaryView extends StatelessWidget {
         child: ListView(
           children: all.map((obj) => Padding(
             padding: EdgeInsets.fromLTRB(0, 2, 0, 5),
-            child: Text("${obj.title}: ${obj.description.length<= 100?obj.description:obj.description.substring(0,100)}"),
+            child: Text("${obj.title}: ${parseDescription(obj.description, 100)}"),
           )).toList()
         ),
       )

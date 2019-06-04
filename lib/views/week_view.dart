@@ -96,7 +96,7 @@ class WeekView extends AbstractView {
       toReturn.add(Text("No Events"));
     }else{  
       events.forEach((a) => 
-        toReturn.add(new CustomEventCard())
+        toReturn.add(new CustomEventCard(a,true,true,true,true))
       );
     }
     return toReturn;

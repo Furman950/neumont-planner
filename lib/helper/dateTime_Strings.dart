@@ -23,3 +23,12 @@ String getMinute(int time){
 
   return min;
 }
+
+String parseDescription(String des,int maxCharCount){
+  des = des.replaceAll(new RegExp("<[^>]*>|\\r\\n"),"");
+  if(des.length >= maxCharCount){
+    des = des.substring(0,maxCharCount) + "....";
+  }
+
+  return des;
+}
