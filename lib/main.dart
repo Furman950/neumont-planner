@@ -61,12 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _assignments = _fetchAssignments();
     _assignmentCount = _assignments.length;
-    _timer = Timer.periodic(Duration(seconds: 60), (Timer t) => showNotification());
+    _timer = Timer.periodic(Duration(seconds: 300), (Timer t) => showNotification());
     _localNotification = new FlutterLocalNotificationsPlugin();
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);
-    _localNotification.initialize(initSettings);
+    _localNotification.initialize(initSettings, onSelectNotification: null);
   }
 
   @override
