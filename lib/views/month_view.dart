@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart' as prefix0;
 import 'package:neumont_planner/helper/change_date_helper.dart';
 import 'package:neumont_planner/helper/dateTimeFilter.dart';
 import 'package:neumont_planner/models/objects/Course.dart';
