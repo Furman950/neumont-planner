@@ -6,6 +6,7 @@ import 'package:neumont_planner/helper/change_date_helper.dart';
 import 'package:neumont_planner/models/objects/custom_event.dart';
 import 'package:neumont_planner/service/abstractServices/canvas_service.dart';
 import 'package:neumont_planner/service/canvas_api.dart';
+import 'package:neumont_planner/service/raspberry_pi_api.dart';
 import 'package:neumont_planner/views/day_view.dart';
 import 'package:neumont_planner/views/hour_view.dart';
 import 'package:neumont_planner/views/month_view.dart';
@@ -22,6 +23,7 @@ enum View { MONTH, WEEK, DAY, HOUR }
 void main() => runApp(MyApp());
 
 CanvasService canvasService = new CanvasAPI();
+RaspberryPiAPI piSeverice = new RaspberryPiAPI();
 
 class MyApp extends StatelessWidget {
   @override
@@ -59,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _fetchEvents();
     _assignments = _fetchAssignments();
     _assignmentCount = _assignments.length;
     _timer = Timer.periodic(Duration(seconds: 300), (Timer t) => showNotification());
@@ -78,6 +81,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  void _fetchEvents(){
+    print("Fetching events");
+    var eventFuture = piSeverice.getAllEventsForUser("1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
+
+    eventFuture.then((list) => {
+      print("Events: ${list.length}"),
+      list.forEach((e) =>
+        _events.add(e)
+      )
+    });
   }
 
   List<Assignment> _fetchAssignments() {
