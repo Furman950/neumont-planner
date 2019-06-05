@@ -142,14 +142,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-              if (_assignments.length > 0){
-                _assignments
-                    .sort((x, y) => x.sortDateTime.compareTo(y.sortDateTime)),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => new TimeSlotView(_assignments)))
-              }
+              _assignments
+                  .sort((x, y) => x.sortDateTime.compareTo(y.sortDateTime)),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new TimeSlotView(_assignments)))
             },
         tooltip: 'Show New Notification',
         child: Icon(Icons.add),
