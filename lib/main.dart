@@ -122,6 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void changeView(View view, DateTime newDate) {
+
+    _fetchEvents();
     setState(() {
       if (view == View.DAY) {
         _changer = ChangeDay();

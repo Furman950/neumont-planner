@@ -25,8 +25,8 @@ class _ViewState extends State<TimeSlotView> {
   List<DropdownMenuItem<Assignment>> _dropDownMenuItems;
   Assignment _currentSelection;
 
-  DateTime _dateTime = new DateTime.now();
-  TimeOfDay _timeOfDay = TimeOfDay.now();
+  DateTime _dateTime;
+  TimeOfDay _timeOfDay;
   List<CustomEvent> events = new List<CustomEvent>();
   DateTime start;
   DateTime end;
@@ -77,16 +77,29 @@ class _ViewState extends State<TimeSlotView> {
     return Scaffold(
         appBar: AppBar(),
         body: Container(
-            child: Column(children: <Widget>[
-          DropdownButton<Assignment>(
-            value: _currentSelection,
-            items: _dropDownMenuItems,
-            onChanged: changeDropDownItem,
-          ),
-          new RaisedButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Choose Assignment"),
+                DropdownButton<Assignment>(
+                  value: _currentSelection,
+                  items: _dropDownMenuItems,
+                  onChanged: changeDropDownItem,
+                ),
+                new RaisedButton(
+                  child: Text("Close"),
             onPressed: () => Navigator.pop(context),
           )
-        ])));
+        ]
+        )
+              ],
+            )
+
+      )
+    );
   }
 
   List<DropdownMenuItem<Assignment>> sortAssignments() {
