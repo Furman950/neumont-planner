@@ -66,7 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
     var iOS = new IOSInitializationSettings();
     var initSettings = new InitializationSettings(android, iOS);
-    _localNotification.initialize(initSettings, onSelectNotification: null);
+    _localNotification.initialize(initSettings, onSelectNotification: newAssignmentPosted);
+  }
+
+  Future newAssignmentPosted(String payload) async {
+    int temp = int.parse(payload);
+    new TimeSlotView(_assignments, temp);
   }
 
   @override
