@@ -60,15 +60,21 @@ class ViewManager extends StatelessWidget {
             IconButton(icon: Icon(Icons.navigate_next), onPressed: () => changeView(currentView, changer.change(selectedDate,  1)))],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             new RaisedButton(
-                child: new Text('Month'),
-                onPressed: () => changeView(View.MONTH, selectedDate)),
+              color: Colors.purple,
+              textColor: Colors.white,
+              child: new Text('Month'),
+              onPressed: () => changeView(View.MONTH, selectedDate)),
             new RaisedButton(
-                child: new Text('Week'),
-                onPressed: () => changeView(View.WEEK, selectedDate)),
+              textColor: Colors.white,
+              color: Colors.purple,
+              child: new Text('Week'),
+              onPressed: () => changeView(View.WEEK, selectedDate)),
             new RaisedButton(
+              textColor: Colors.white,
+              color: Colors.purple,
                 child: new Text('Day'),
                 onPressed: () => changeView(View.DAY, selectedDate))
           ],

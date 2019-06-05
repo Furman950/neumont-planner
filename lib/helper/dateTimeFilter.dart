@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:neumont_planner/models/objects/objects.dart';
 
 List<GuiObject> getObjectsByHour(DateTime filter, List<GuiObject> objs){
@@ -53,4 +54,18 @@ List<GuiObject> getObjectsByMonth(DateTime filter, List<GuiObject> objs){
   });
 
   return toBeReturned;
+}
+
+Color getColorBasedOnDay(DateTime date,DateTime selectedDate){
+      Color color = Colors.grey.withOpacity(0);
+
+      if (date.month == selectedDate.month) {
+        color = Colors.yellow.withOpacity(1);
+      }
+
+      if (date.day == DateTime.now().day && date.month == DateTime.now().month && date.year == DateTime.now().year) {
+        color = Colors.orange.withOpacity(1);
+      }
+
+      return color;
 }

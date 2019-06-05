@@ -52,24 +52,14 @@ class MonthView extends AbstractView {
 
     for (int i = offset; monthView.length < 42; i++) {
       DateTime day = new DateTime(selectedDate.year, selectedDate.month, i);
-      Color color = Colors.grey.withOpacity(0);
 
-      if (day.month == selectedDate.month) {
-        color = Colors.yellow.withOpacity(1);
-      }
-
-      if (day.day == DateTime.now().day &&
-          day.month == DateTime.now().month &&
-          day.year == DateTime.now().year) {
-        color = Colors.orange.withOpacity(1);
-      }
 
       monthView.add(
         new Container(
           width: 100,
           height: 100,
           child: new RaisedButton(
-              color: color,
+              color: getColorBasedOnDay(day, selectedDate),
               child: new Text('${day.day}'),
               onPressed: () => changeView(View.WEEK, day)),
         ),

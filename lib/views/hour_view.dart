@@ -36,6 +36,7 @@ class HourView extends AbstractView {
               Expanded(child: 
                 ListView(
                   children: hourList.map((hour) => Container(
+                    color: hour % 2 == 0? Colors.yellow:Colors.orangeAccent,
                     child: Row(children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(10),

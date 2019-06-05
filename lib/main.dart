@@ -93,18 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getView(View view, Function(View, DateTime) changeView) {
-    if (view == View.DAY && _selectedDate.day == _today.day) {
-      return HourView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+    if (view == View.DAY && _selectedDate.day == _today.day && _selectedDate.month == _today.month && _today.year == _selectedDate.year) {
+      return HourView( _assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.DAY) {
-      return DayView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return DayView(_assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.WEEK) {
-      return WeekView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return WeekView(_assignments, _courses, _events, changeView, _selectedDate);
     } else if (view == View.MONTH) {
-      return MonthView(
-          _assignments, _courses, _events, changeView, _selectedDate);
+      return MonthView(_assignments, _courses, _events, changeView, _selectedDate);
     } else {
       return Text('Yikes');
     }

@@ -45,6 +45,7 @@ class WeekView extends AbstractView {
                 child: ListView(
                     children: dates
                         .map((date) => Card(
+                          color: getColorBasedOnDay(date, selectedDate),
                               child: Column(
                                 children: buildWidgetsForWeek(date),
                               ),
@@ -122,6 +123,8 @@ class WeekView extends AbstractView {
   buildWidgetsForWeek(DateTime date) {
     List<Widget> toBeReturned = [];
     toBeReturned.add(RaisedButton(
+      color: Color.fromRGBO(135, 241, 255, 1),
+      textColor: Colors.black,
       child: Text(getButtonDate(date)),
       onPressed: () => changeView(View.DAY, date),
     ));
