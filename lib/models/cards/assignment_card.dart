@@ -27,7 +27,7 @@ class AssignmentCard extends StatelessWidget {
   }
     
   String getTextOfAssignment() {
-    String s = "";
+    String s = "\t\t";
     if(_showId){
       s += "id: ${_assignment.id} ";
     }
@@ -41,8 +41,7 @@ class AssignmentCard extends StatelessWidget {
     }
 
     if(_showDescription){
-      String description = _assignment.description.length <= 100? _assignment.description: _assignment.description.substring(0,100);
-      s += "$description ";
+      s += "${parseDescription(_assignment.description, 180)}";
     }
 
     if(_showPP){
@@ -58,14 +57,14 @@ class AssignmentCard extends StatelessWidget {
     }
 
     if(_showIsQuizAssignment){
-      s+= _assignment.isQuizAssignment? "Quiz ":"";
+      s+= _assignment.isQuizAssignment? "Quiz ":" ";
     }
 
     if(_showDueAt){
       var day = _assignment.dueAt.day;
       var month = _assignment.dueAt.month;
 
-      s += "Due: $month/$day @ ${getHourAndMinuteByTime(_assignment.dueAt)}";
+      s += "Due: $month/$day @ ${getHourAndMinuteByTime(_assignment.dueAt)} ";
     }
 
     if(_showGradingType){
