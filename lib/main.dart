@@ -85,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _fetchEvents(){
     print("Fetching events");
+    _events.clear();
     var eventFuture = piSeverice.getAllEventsForUser("1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
 
     eventFuture.then((list) => {
