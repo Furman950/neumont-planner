@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 //import 'package:neumont_planner/main.dart';
 import 'package:neumont_planner/models/objects/assignment.dart';
@@ -36,6 +38,26 @@ class _ViewState extends State<TimeSlotView> {
 
   //   } while ();
   // }
+  Future<Null> _checkForEvent(Assignment currentSelection) async {
+    sleep(const Duration(seconds: 5));
+
+    print("checking for event");
+    if (_dateTime != null && _timeOfDay != null) {
+      start = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+          _timeOfDay.hour, _timeOfDay.minute);
+      end = start.add(new Duration(hours: 1));
+
+      CustomEvent newEvent = new CustomEvent(
+          description: currentSelection.description,
+          title: currentSelection.title,
+          startTime: start,
+          endTime: end);
+      api.createEvent(newEvent,
+          "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
+    } else {
+      print("no event");
+    }
+  }
 
   Future<Null> _selectDate(BuildContext context, Assignment assignment) async {
     DateTime _temp = DateTime.now();
@@ -65,6 +87,9 @@ class _ViewState extends State<TimeSlotView> {
         _timeOfDay = toReturn;
       });
     }
+    _checkForEvent(_currentSelection);
+    _dateTime = null;
+    _timeOfDay = null;
   }
 
   @override
@@ -78,28 +103,24 @@ class _ViewState extends State<TimeSlotView> {
         appBar: AppBar(),
         body: Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Choose Assignment"),
-                DropdownButton<Assignment>(
-                  value: _currentSelection,
-                  items: _dropDownMenuItems,
-                  onChanged: changeDropDownItem,
-                ),
-                new RaisedButton(
-                  child: Text("Close"),
-            onPressed: () => Navigator.pop(context),
-          )
-        ]
-        )
-              ],
-            )
-
-      )
-    );
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Choose Assignment"),
+                  DropdownButton<Assignment>(
+                    value: _currentSelection,
+                    items: _dropDownMenuItems,
+                    onChanged: changeDropDownItem,
+                  ),
+                  new RaisedButton(
+                    child: Text("Close"),
+                    onPressed: () => Navigator.pop(context),
+                  )
+                ])
+          ],
+        )));
   }
 
   List<DropdownMenuItem<Assignment>> sortAssignments() {
@@ -121,22 +142,33 @@ class _ViewState extends State<TimeSlotView> {
   void changeDropDownItem(Assignment currentSelection) {
     // print("$currentSelection");
 
+    // _selectTime(context);
     _selectTime(context);
     _selectDate(context, currentSelection);
 
-    start = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-        _timeOfDay.hour, _timeOfDay.minute);
-    end = start.add(new Duration(hours: 1));
+    // _checkForEvent(currentSelection);
+    // sleep(const Duration(seconds: 3));
+    // sleep(const Duration(seconds: 3));
 
-    CustomEvent newEvent = new CustomEvent(
-        description: currentSelection.description,
-        title: currentSelection.title,
-        startTime: start,
-        endTime: end);
-    print("New Event StartTime: ${newEvent.startTime}");
-    print("New Event EndTime: ${newEvent.endTime}");
-    api.createEvent(newEvent,
-        "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
+    // if (!(_dateTime == null || _timeOfDay == null)) {
+    //   start = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+    //       _timeOfDay.hour, _timeOfDay.minute);
+    //   end = start.add(new Duration(hours: 1));
+
+    //   CustomEvent newEvent = new CustomEvent(
+    //       description: currentSelection.description,
+    //       title: currentSelection.title,
+    //       startTime: start,
+    //       endTime: end);
+    //   print("New Event StartTime: ${newEvent.startTime}");
+    //   print("New Event EndTime: ${newEvent.endTime}");
+    //   api.createEvent(newEvent,
+    //       "1~rFQEBXNCJVGuQYLTODQZUvihtzQWQt6aO3IOyOBS85d4p9UJ10lC7A5qe6ySG7eV");
+    //   _dateTime = null;
+    //   _timeOfDay = null;
+    // } else {
+    //   print("event cancled");
+    // }
     setState(() {
       _currentSelection = currentSelection;
     });
