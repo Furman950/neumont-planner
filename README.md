@@ -1,6 +1,6 @@
 # Neumont Planner
 
-## Features (Comming soon)
+## Features
 - Display Current Courses
 - Display Current Assignments
 - Online and offline mode
